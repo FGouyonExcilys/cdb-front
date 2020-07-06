@@ -41,7 +41,42 @@ const routes = [
     component: function () {
       return import('../views/EditComputer.vue')
     }
+  }, {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    name: 'profile',
+    // lazy-loaded
+    component: () => import('./views/Profile.vue')
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    // lazy-loaded
+    component: () => import('./views/BoardAdmin.vue')
+  },
+  {
+    path: '/mod',
+    name: 'moderator',
+    // lazy-loaded
+    component: () => import('./views/BoardModerator.vue')
+  },
+  {
+    path: '/user',
+    name: 'user',
+    // lazy-loaded
+    component: () => import('./views/BoardUser.vue')
   }
+  
 ]
 
 const router = new VueRouter({

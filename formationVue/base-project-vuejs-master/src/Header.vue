@@ -13,7 +13,16 @@
 			<a href="${pageContext.request.contextPath}/logout"
 				style="color: white"><i class="fa fa-sign-out"
 				style="font-size: 24px; color: #de4e4e" aria-hidden="true"></i>Logout</a>
-			</div>	
+
+			<a href="${pageContext.request.contextPath}/login"
+				style="color: white"><i class="fa fa-sign-out"
+				style="font-size: 24px; color: #de4e4e" aria-hidden="true"></i>Login</a>
+	
+
+			<a href="${pageContext.request.contextPath}/register"
+				style="color: white"><i class="fa fa-sign-out"
+				style="font-size: 24px; color: #de4e4e" aria-hidden="true"></i>Register</a>
+			</div>
 				
 			<div align="right">
 				<a class="dropdown-item" href="?lang=en"> <img

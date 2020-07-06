@@ -8,9 +8,8 @@ export class ComputersApi {
   findAll() {
     return this.axios.get("/computers", {
       crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
+      headers: {
+        'authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU5NDA0MzU5NiwiaWF0IjoxNTk0MDM5OTk2fQ.glEdshwvblY7Rwr3UCz3Uct2JrbAot5VBmEf5tIQZV1lEVQV1AiP7YgP8Nt-BljFaCnA8XijLbYKIRuTlC7cUA'
       },
     });
   }
