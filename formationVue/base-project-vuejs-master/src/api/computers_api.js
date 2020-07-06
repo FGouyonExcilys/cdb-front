@@ -15,6 +15,18 @@ export class ComputersApi {
     });
   }
 
+  
+
+  create(computer) {
+    return this.axios.post("/computers", computer, {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
+      headers: { "Content-Type": "application/json" },
+    });
+  }
   findOne(id){
     return this.axios.get("/computers/" + id, {
       crossdomain: true,
@@ -24,9 +36,8 @@ export class ComputersApi {
       },
     });
   }
-
-  create(computer) {
-    return this.axios.post("/computers", computer, {
+  update(id, computer){
+    return this.axios.put("/computers/" + id, computer, {
       crossdomain: true,
       auth: {
         username: "admin",

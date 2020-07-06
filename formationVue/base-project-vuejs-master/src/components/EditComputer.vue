@@ -1,11 +1,11 @@
 <template>
   <div>
     <h1>EDIT COMPUTER FORM</h1>
-    {{computerToEdit}}
+
     <form>
       <div :class="{invalid : !lazy && !validateName}">
         <label for="name">Name </label>
-        <input id="name" v-model="name" type="text" name="name" placeholder="Computer Name" />
+        <input id="name" v-model="name" type="text" name="name"/>
       </div>
 
       <p>
@@ -15,7 +15,7 @@
           v-model="introduced"
           type="date"
           name="introduced"
-          v-bind:class="[isActiveIntroduced ? activeClass : '', errorClass]"
+          :class="[isActiveIntroduced ? activeClass : '', errorClass]"
           placeholder="Introduced Date"
         />
       </p>
@@ -55,13 +55,15 @@ import CompaniesApi from "../api/companies_api";
 
 export default {
   
-  props: ["id"],
+  props: {
+    id: Number,
+  },
 
   data: function() {
     return {
       errors: [],
       companyList: [],
-      computerToEdit: undefined,
+      computerToEdit: {},
       name: "",
       introduced: "",
       discontinued: "",
@@ -80,8 +82,14 @@ export default {
     CompaniesApi.findAll().then(response => (this.companyList = response.data));
     console.log(this.companyList);
 
-    ComputersApi.findOne(this.id).then(response => (this.computerToEdit = response.data));
-    console.log(this.computerToEdit)
+    ComputersApi.findOne(this.id).then(function (response) {
+      this.computerToEdit = response.data;
+      this.name = this.computerToEdit.name;
+      this.introduced = this.computerToEdit.introducedDate;
+      this.discontinued = this.computerToEdit.discontinuedDate;
+      this.companyId = this.computerToEdit.companyDTO.id;
+    }.bind(this));
+
   },
 
   methods: {
@@ -97,7 +105,7 @@ export default {
     },
     validateName() {
       console.log("Validate Name");
-      this.isActiveName = this.name && this.name.length < 60;
+      this.isActiveName = this.computerToEdit.name && this.computerToEdit.name.length < 60;
     },
     validateIntroduced() {
       console.log("Validate Introduced");
@@ -112,7 +120,7 @@ export default {
         this.discontinued &&
         new Date(this.discontinued) > new Date(1971, 1, 1) &&
         new Date(this.discontinued) < new Date() &&
-        (new Date(this.introduced) < new Date(this.discontinued) ? true : false)
+        (new Date(this.introduced) < new Date(this.discontinued) ? true : false);
     },
 
     validate: function() {
@@ -128,7 +136,6 @@ export default {
         this.isActiveIntroduced &&
         this.isActiveDiscontinued
       ) {
-        // Méthode POST ICI
         console.log({
           id: "",
           name: this.name,
@@ -136,8 +143,9 @@ export default {
           discontinuedDate: this.discontinued,
           companyDTO: { id: this.companyId, name: "" }
         });
-        ComputersApi.create({
-          id: "900",
+        // Méthode PUT ICI
+        ComputersApi.update(this.id, {
+          id: this.id,
           name: this.name,
           introducedDate: this.introduced,
           discontinuedDate: this.discontinued,
