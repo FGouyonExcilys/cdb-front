@@ -1,4 +1,5 @@
 import { axios } from "./index";
+import authHeader from '../services/auth-header';
 
 export class CompaniesApi {
   constructor(axiosInstance) {
@@ -8,10 +9,7 @@ export class CompaniesApi {
   findAll() {
     return this.axios.get("/companies", {
       crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
+       headers: authHeader() 
     });
   }
 
@@ -21,7 +19,7 @@ export class CompaniesApi {
     });
   }
   delete(id) {
-    return this.axios.delete("/companies/" + id);
+    return this.axios.delete("/companies/" + id, authHeader());
   }
 }
 

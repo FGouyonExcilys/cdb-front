@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import User from '../models/user';
+import User from '../model/user';
 
 export default {
   name: 'Register',
@@ -71,7 +71,7 @@ export default {
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push('/profile');
+      this.$router.push('/computers');
     }
   },
   methods: {

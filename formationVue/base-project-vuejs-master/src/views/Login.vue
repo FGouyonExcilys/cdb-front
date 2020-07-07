@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import User from '../models/user';
+import User from '../model/user';
 
 export default {
   name: 'Login',
@@ -70,7 +70,7 @@ export default {
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push('/profile');
+      this.$router.push('/computers');
     }
   },
   methods: {
@@ -85,7 +85,7 @@ export default {
         if (this.user.username && this.user.password) {
           this.$store.dispatch('auth/login', this.user).then(
             () => {
-              this.$router.push('/profile');
+              this.$router.push('/computers');
             },
             error => {
               this.loading = false;

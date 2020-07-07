@@ -12,16 +12,20 @@ export const auth = {
     login({ commit }, user) {
       return AuthService.login(user).then(
         user => {
+          console.log("auth.module ligne 16 login ");
+          console.log(user.status)
           commit('loginSuccess', user);
           return Promise.resolve(user);
         },
         error => {
+          console.log("auth.module ligne 21 login ");
           commit('loginFailure');
           return Promise.reject(error);
         }
       );
     },
     logout({ commit }) {
+      console.log("auth.module ligne 26 logout");
       AuthService.logout();
       commit('logout');
     },

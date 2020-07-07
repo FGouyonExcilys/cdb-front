@@ -1,4 +1,5 @@
 import { axios } from "./index";
+import authHeader from '../services/auth-header';
 
 export class ComputersApi {
   constructor(axiosInstance) {
@@ -6,32 +7,25 @@ export class ComputersApi {
   }
 
   findAll() {
+
+    console.warn(authHeader());
     return this.axios.get("/computers", {
       crossdomain: true,
-      headers: {
-        'authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU5NDA0MzU5NiwiaWF0IjoxNTk0MDM5OTk2fQ.glEdshwvblY7Rwr3UCz3Uct2JrbAot5VBmEf5tIQZV1lEVQV1AiP7YgP8Nt-BljFaCnA8XijLbYKIRuTlC7cUA'
-      },
+      headers: authHeader(),
     });
   }
 
   findOne(id){
     return this.axios.get("/computers/" + id, {
       crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
+      headers: authHeader(),
     });
   }
 
   create(computer) {
     return this.axios.post("/computers", computer, {
       crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
-      headers: { "Content-Type": "application/json" },
+      headers: authHeader() + { "Content-Type": "application/json" },
     });
   }
   delete(id) {
