@@ -1,5 +1,7 @@
 <template>
-  <div>
+  
+
+  <!-- <div>
     <h1>ADD COMPUTER FORM</h1>
 
     <form>
@@ -46,7 +48,108 @@
       <button @click="validate">Validation </button>
     </form>
     {name: {{name}}, introduced: {{introduced}}, discontinued: {{discontinued}}, companyId: {{companyId}}}
-  </div>
+  </div>-->
+
+  <script type="text/x-template" id="addComputer">
+     <v-container>
+       <!-- -->Hello
+       <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+
+   <v-form
+         ref="form"
+         v-model="valid"
+         :lazy-validation="lazy">
+         <v-text-field
+           v-model="name"
+           :counter="10"
+           :rules="nameRules"
+           label="name"
+           required
+         ></v-text-field>
+  <v-row>
+     <v-col cols="12" lg="6">
+       <v-menu
+             ref="menu1"
+             v-model="menu1"
+             :close-on-content-click="false"
+             transition="scale-transition"
+             offset-y
+             max-width="290px"
+             min-width="290px"
+           >
+             <template v-slot:activator="{ on, attrs }">
+               <v-text-field
+                 v-model="introduced"
+                 label="Date"
+                 hint="MM/DD/YYYY format"
+                 persistent-hint
+                 prepend-icon="event"
+                 v-bind="attrs"
+                 @blur="introduced = parseDate(introducedFormatted)"
+                 v-on="on"
+               ></v-text-field>
+             </template>
+             <v-date-picker v-model="introduced" no-title @input="menu1 = false"></v-date-picker>
+           </v-menu>
+           <p>Date in ISO format: <strong>{{ introduced }}</strong></p>
+         </v-col>
+
+           <v-col cols="12" lg="6">
+             <v-menu
+             v-model="menu2"
+             :close-on-content-click="false"
+             transition="scale-transition"
+             offset-y
+             max-width="290px"
+             min-width="290px"
+           >
+             <template v-slot:activator="{ on, attrs }">
+               <v-text-field
+                 v-model="discontinued"
+                 label="Date (read only text field)"
+                 hint="MM/DD/YYYY format"
+                 persistent-hint
+                 prepend-icon="event"
+                 readonly
+                 v-bind="attrs"
+                 v-on="on"
+               ></v-text-field>
+             </template>
+             <v-date-picker v-model="discontinued" no-title @input="menu2 = false"></v-date-picker>
+           </v-menu>
+           <p>Date in ISO format: <strong>{{ discontinued }}</strong></p>
+         </v-col>
+       </v-row>
+
+         <v-select
+           v-model="select"
+           :items="companyList"
+           :rules="[v => !!v || 'Item is required']"
+           label="Company"
+           required
+         ></v-select>
+
+
+         <v-btn
+           :disabled="!valid"
+           color="success"
+           class="mr-4"
+           @click="validate"
+         >
+           Validate
+         </v-btn>
+
+
+
+         <v-btn
+           color="warning"
+           @click="resetValidation"
+         >
+           Cancel
+         </v-btn>
+       </v-form>
+   </v-container>
+  </script>
 </template>
 
 <script>
@@ -54,22 +157,54 @@ import ComputersApi from "../api/computers_api";
 import CompaniesApi from "../api/companies_api";
 
 export default {
-  data: function() {
-    return {
-      errors: [],
-      companyList: [],
-      name: "",
-      introduced: "",
-      discontinued: "",
-      companyId: "",
-      activeClass: "active",
-      errorClass: "text-danger",
-      isActiveName: false,
-      isActiveIntroduced: false,
-      isActiveDiscontinued: false,
-      isOk: false,
-      lazy: true
-    };
+  template: "#addComputer",
+  icons: {
+    iconfont: "mdiSvg" // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+  },
+  data: vm => ({
+    errors: [],
+    companyList: [],
+
+    introducedFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+    discontinuedFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+
+    menu2: false,
+    name: "",
+    nameRules: [
+      v => !!v || "Name is required",
+      v => (v && v.length <= 10) || "Name must be less than 10 characters"
+    ],
+
+    introduced: "",
+    discontinued: "",
+    companyId: "",
+    checkbox: false,
+    select: null,
+    activeClass: "active",
+    errorClass: "text-danger",
+    isActiveName: false,
+    isActiveIntroduced: false,
+    isActiveDiscontinued: false,
+    isOk: false,
+    lazy: false
+  }),
+
+  computed: {
+    computedIntroducedFormatted() {
+      return this.formatDate(this.introduced);
+    },
+    computedDiscontinuedFormatted() {
+      return this.formatDate(this.discontinued);
+    }
+  },
+
+  watch: {
+    date(val) {
+      this.introcudedFormatted = this.formatDate(this.introduced);
+    },
+    date(val) {
+      this.discontinuedFormatted = this.formatDate(this.discontinued);
+    }
   },
 
   mounted: function() {
@@ -105,10 +240,35 @@ export default {
         this.discontinued &&
         new Date(this.discontinued) > new Date(1971, 1, 1) &&
         new Date(this.discontinued) < new Date() &&
-        (new Date(this.introduced) < new Date(this.discontinued) ? true : false)
+        (new Date(this.introduced) < new Date(this.discontinued)
+          ? true
+          : false);
+    },
+    formatDate(date) {
+      if (!date) return null;
+
+      const [year, month, day] = date.split("-");
+      return `${month}/${day}/${year}`;
+    },
+    parseDate(date) {
+      if (!date) return null;
+
+      const [month, day, year] = date.split("/");
+      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
     },
 
-    validate: function() {
+    reset() {
+      this.$refs.form.reset();
+    },
+    resetValidation() {
+      this.$refs.form.resetValidation();
+    },
+
+    validate() {
+      this.$refs.form.validate();
+    },
+
+    validate2: function() {
       this.validateName();
       this.validateIntroduced();
       this.validateDiscontinued();
@@ -139,18 +299,6 @@ export default {
           console.log(error);
         });
       }
-    },
-
-    validDate: function(day) {
-      var bitsDays = day.split("-");
-      var yDays = bitsDays[2],
-        mDays = bitsDays[1],
-        dDays = bitsDays[0];
-      var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      if (yDays % 400 === 0 || (yDays % 100 !== 0 && yDays % 4 === 0)) {
-        daysInMonth[1] = 29;
-      }
-      return dDays <= daysInMonth[--mDays];
     }
   }
 };

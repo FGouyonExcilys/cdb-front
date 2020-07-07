@@ -4,6 +4,17 @@ export class ComputersApi {
   constructor(axiosInstance) {
     this.axios = axiosInstance;
   }
+  
+  create(computer) {
+    return this.axios.post("/computers", computer, {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
   findAll() {
     return this.axios.get("/computers", {
@@ -15,18 +26,6 @@ export class ComputersApi {
     });
   }
 
-  
-
-  create(computer) {
-    return this.axios.post("/computers", computer, {
-      crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
-      headers: { "Content-Type": "application/json" },
-    });
-  }
   findOne(id){
     return this.axios.get("/computers/" + id, {
       crossdomain: true,

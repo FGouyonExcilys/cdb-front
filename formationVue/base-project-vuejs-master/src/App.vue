@@ -1,17 +1,17 @@
-<template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/computers">Computers</router-link> |
-      <router-link to="/addComputer">Add Computer</router-link> |
-      <router-link to="/editComputer">Edit Computer</router-link>
-      
 
+<template>
+  <v-app>
+    <div id="nav">
+      <router-link to="/">Home</router-link>|
+      <router-link to="/about">About</router-link>|
+      <router-link to="/computers">Computers</router-link>|
+      <router-link to="/addComputer">Add Computer</router-link>|
+      <router-link to="/editComputer">Edit Computer</router-link>
     </div>
-    <router-view/>
-  </div>
+    <router-view />
+  </v-app>
 </template>
+
 
 <style>
 #app {
