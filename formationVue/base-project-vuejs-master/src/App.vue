@@ -3,7 +3,8 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/computers">Computers</router-link> |
+      <router-link to="/computers">Dashboard</router-link> |
+      <router-link to="/companies">Companies</router-link> |
       <router-link to="/addComputer">Add Computer</router-link> |
       <router-link to="/editComputer">Edit Computer</router-link>
       

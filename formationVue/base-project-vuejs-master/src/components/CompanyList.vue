@@ -1,12 +1,12 @@
 <template>
   <div>
     
-      <h1>COMPUTER LIST</h1>
+      <h1>COMPANY LIST</h1>
 
-      <h2>{{nbComputers}} trouvés</h2>
+      <h2>{{nbCompanies}} trouvés</h2>
       <div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					Chercher un ordinateur
+					Chercher une compagnie
 					<label>
   						<input type="text" v-model="search"> <button @click="getUrlFirstSearch">Filtrer</button>
   					</label>  
@@ -14,19 +14,18 @@
 						<label>
 						<input type="text" v-model="search" id="searchbox" name="search"
 							class="form-control" placeholder="ex: Mac" /> <input
-							type="submit" @click="getUrlFirstSearch" id="searchsubmit"
+							type="submit"  id="searchsubmit"
 							value="Filtrer"
 							class="btn btn-primary" />
 						</label>
 					</form>-->
 				</div>
-      			
+				
 					  <button @click="show = !show">Delete</button>
 				
-
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="addComputer">Ajouter</a> <a class="btn btn-default"
-						id="editComputer" href="#" >Éditer</a>
+					<a class="btn btn-success" id="addCompany" href="addCompany">Ajouter</a> <a class="btn btn-default"
+						id="editCompany" href="#" >Éditer</a>
 				</div>
 			</div>
       <form id="deleteForm" action="dashboard/deleteComputer" method="POST">
@@ -45,10 +44,7 @@
 									class="fa fa-trash-o fa-lg"></i>
 								</a>
 						</span></th>
-						<th><a href="/computers?order=Name">name</a></th>
-						<th><a href="/computers?order=Introduced">introduced</a></th>
-						<th><a href="/computers?order=Discontinued">discontinued</a></th>
-						<th><a href="/computers?order=Company">company</a></th>
+						<th><a href="/companies?order=Name">name</a></th>
 					</tr>
 				</thead>
 
@@ -59,9 +55,6 @@
 								class="cb" :value="comp.id"></td>
 							<td><a href="editComputer?computerId=comp.id"
 								>{{comp.name}}</a></td>
-							<td>{{comp.introducedDate}}</td>
-							<td>{{comp.discontinuedDate}}</td>
-							<td>{{comp.companyDTO.name}}</td>
 						</tr>
 					</span>
 				</tbody>
@@ -97,13 +90,13 @@
 </template>
 
 <script>
-import ComputersApi from "../api/computers_api";
+import CompaniesApi from "../api/companies_api";
 
 
 export default {
   data: function() {
     return {
-      nbComputers: 0,
+      nbCompanies: 0,
 		result: [],
 		pageIterator: 0,
 		pageSize: 10,
@@ -116,14 +109,11 @@ export default {
     };
   },
   mounted: function() {
-    ComputersApi.findAll().then(response => {
-      this.nbComputers = response.data.length;
-		  this.maxPage = this.nbComputers/this.pageSize;
+    CompaniesApi.findAll().then(response => {
+      this.nbCompanies = response.data.length;
+		  this.maxPage = this.nbCompanies/this.pageSize;
+        this.result = response.data;
     });
-    ComputersApi.findFirstPage().then(response => {
-		console.log('TOTOTOTOTO')
-		  this.result = response.data;
-	  });
     
   },
   methods: {
@@ -133,7 +123,7 @@ export default {
 		  console.log(this.search);
 		  console.log('AAAAAAAAAAAAAAAAA');
 		  console.log(this.search);
-		  ComputersApi.findPageSearch(this.search,this.pageIterator,this.pageSize).then(response => {
+		  CompaniesApi.findPageSearch(this.search,this.pageIterator,this.pageSize).then(response => {
 			 console.log('newSearch appelé dans méthode sans le créer dans data'); 
 			 console.log(response.data); 
 			  this.result = response.data;
@@ -141,13 +131,13 @@ export default {
 	  },
 	  getUrlPrevious() {
       this.pageIterator -= 1;
-		  ComputersApi.findPage(this.pageIterator,this.pageSize).then(response => {
+		  CompaniesApi.findPage(this.pageIterator,this.pageSize).then(response => {
         this.result = response.data;
       });
 	  },
 	  getUrlNext() {
       this.pageIterator += 1;
-		   ComputersApi.findPage(this.pageIterator,this.pageSize).then(response => {
+		   CompaniesApi.findPage(this.pageIterator,this.pageSize).then(response => {
 				this.result = response.data;
       });
 		  

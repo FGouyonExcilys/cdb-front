@@ -15,6 +15,36 @@ export class ComputersApi {
     });
   }
 
+  findFirstPage() {
+    return this.axios.get("/computers?page=1&size=10", {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
+    });
+  }
+
+  findPage(page, size) {
+    return this.axios.get('/computers?page='+page+'&size='+size, {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
+    });
+  }
+
+  findPageSearch(search,page, size) {
+    return this.axios.get('/computers?search='+search+'&page='+page+'&size='+size, {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
+    });
+  }
+
   findOne(id){
     return this.axios.get("/computers/" + id, {
       crossdomain: true,

@@ -15,8 +15,43 @@ export class CompaniesApi {
     });
   }
 
+  findPage(page, size) {
+    return this.axios.get('/companies?page='+page+'&size='+size, {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
+    });
+  }
+
+  findPageSearch(search,page, size) {
+    return this.axios.get('/companies?search='+search+'&page='+page+'&size='+size, {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
+    });
+  }
+
+  findOne(id){
+    return this.axios.get("/companies/" + id, {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
+    });
+  }
+
   create(company) {
     return this.axios.post("/companies", company, {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
       headers: { "Content-Type": "application/json" },
     });
   }
