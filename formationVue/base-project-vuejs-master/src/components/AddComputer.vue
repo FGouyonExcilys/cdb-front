@@ -5,7 +5,7 @@
         href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
         rel="stylesheet"
       />
-
+      <h1>ADD COMPUTER FORM</h1><br/>
       <v-form ref="form" v-model="valid" :lazy-validation="lazy">
         <v-text-field v-model="name" :counter="60" :rules="nameRules" clearable label="Name" required></v-text-field>
         <v-row>
@@ -183,6 +183,7 @@ export default {
           ? true
           : false);
     },
+
     formatDate(date) {
       if (!date) return null;
 
