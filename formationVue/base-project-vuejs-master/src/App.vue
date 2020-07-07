@@ -1,4 +1,3 @@
-
 <template>
   <v-app class="app">
     <div id="nav">
