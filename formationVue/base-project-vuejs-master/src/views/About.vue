@@ -40,7 +40,7 @@
            label="Name"
            required
          ></v-text-field>
-  <v-row>
+  <v-row>i
      <v-col cols="12" lg="6">
        <v-menu
              ref="menu1"
@@ -127,82 +127,73 @@
 </template>
 
 <script>
-export default {
-  
-}
+export default {};
 
 const App = {
-  template: '#app-template',
+  template: "#app-template",
   icons: {
-    iconfont: 'mdiSvg', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+    iconfont: "mdiSvg" // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
   },
   data: vm => ({
     date: new Date().toISOString().substr(0, 10),
     dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
     menu2: false,
     valid: true,
-    name: '',
+    name: "",
     nameRules: [
-      v => !!v || 'Name is required',
-      v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+      v => !!v || "Name is required",
+      v => (v && v.length <= 10) || "Name must be less than 10 characters"
     ],
-    email: '',
+    email: "",
     emailRules: [
-      v => !!v || 'E-mail is required',
-      v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      v => !!v || "E-mail is required",
+      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
     select: null,
-    items: [
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4',
-    ],
+    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
     checkbox: false,
-    lazy: false,
+    lazy: false
   }),
- 
+
   computed: {
-    computedDateFormatted () {
-      return this.formatDate(this.date)
-    },
+    computedDateFormatted() {
+      return this.formatDate(this.date);
+    }
   },
- 
+
   watch: {
-    date (val) {
-      this.dateFormatted = this.formatDate(this.date)
-    },
+    date(val) {
+      this.dateFormatted = this.formatDate(this.date);
+    }
   },
- 
+
   methods: {
-    formatDate (date) {
-      if (!date) return null
+    formatDate(date) {
+      if (!date) return null;
 
-      const [year, month, day] = date.split('-')
-      return `${month}/${day}/${year}`
+      const [year, month, day] = date.split("-");
+      return `${month}/${day}/${year}`;
     },
-    parseDate (date) {
-      if (!date) return null
+    parseDate(date) {
+      if (!date) return null;
 
-      const [month, day, year] = date.split('/')
-      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+      const [month, day, year] = date.split("/");
+      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
     },
-    validate () {
-      this.$refs.form.validate()
+    validate() {
+      this.$refs.form.validate();
     },
-    reset () {
-      this.$refs.form.reset()
+    reset() {
+      this.$refs.form.reset();
     },
-    resetValidation () {
-      this.$refs.form.resetValidation()
-    },
-  },
- 
-}
-
+    resetValidation() {
+      this.$refs.form.resetValidation();
+    }
+  }
+};
 
 new Vue({
   vuetify: new Vuetify(),
   render: h => h(App)
-}).$mount('#app')
+}).$mount("#app");
 </script>

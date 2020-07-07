@@ -1,6 +1,4 @@
 <template>
-  
-
   <!-- <div>
     <h1>ADD COMPUTER FORM</h1>
 
@@ -50,7 +48,7 @@
     {name: {{name}}, introduced: {{introduced}}, discontinued: {{discontinued}}, companyId: {{companyId}}}
   </div>-->
 
-  <script type="text/x-template" id="addComputer">
+  <div type="text/x-template" id="addComputer">
      <v-container>
        <!-- -->Hello
        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
@@ -149,7 +147,7 @@
          </v-btn>
        </v-form>
    </v-container>
-  </script>
+  </div>
 </template>
 
 <script>
@@ -166,8 +164,11 @@ export default {
     companyList: [],
 
     introducedFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
-    discontinuedFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
-
+    discontinuedFormatted: vm.formatDate(
+      new Date().toISOString().substr(0, 10)
+    ),
+    valid: true,
+    menu1: false,
     menu2: false,
     name: "",
     nameRules: [
@@ -289,13 +290,15 @@ export default {
           discontinuedDate: this.discontinued,
           companyDTO: { id: this.companyId, name: "" }
         });
-        ComputersApi.create({
+        ComputersApi.create(
+          {
           id: "900",
           name: this.name,
           introducedDate: this.introduced,
           discontinuedDate: this.discontinued,
           companyDTO: { id: this.companyId, name: "" }
-        }).catch(function(error) {
+        }
+        ).catch(function(error) {
           console.log(error);
         });
       }

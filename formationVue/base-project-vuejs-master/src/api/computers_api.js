@@ -4,7 +4,7 @@ export class ComputersApi {
   constructor(axiosInstance) {
     this.axios = axiosInstance;
   }
-  
+
   create(computer) {
     return this.axios.post("/computers", computer, {
       crossdomain: true,
