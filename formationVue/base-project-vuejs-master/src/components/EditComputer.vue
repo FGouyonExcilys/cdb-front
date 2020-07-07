@@ -235,7 +235,7 @@ export default {
         this.isActiveDiscontinued
       ) {
         console.log({
-          id: "",
+          id: this.id,
           name: this.name,
           introducedDate: this.introduced,
           discontinuedDate: this.discontinued,
