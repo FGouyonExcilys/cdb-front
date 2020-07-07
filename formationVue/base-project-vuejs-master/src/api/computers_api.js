@@ -7,22 +7,14 @@ export class ComputersApi {
 
   create(computer) {
     return this.axios.post("/computers", computer, {
-      crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",  authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU5NDEzNjgwMiwiaWF0IjoxNTk0MTMzMjAyfQ.nANEddZSNbdKdFVqfzLg3CJh7xExsknff1bJgyHRUg2diR_QoeZeSxXDV02U1Y5G-DX_MSNZ4fjBOmwfmf7lZQ" },
     });
   }
 
   findAll() {
     return this.axios.get("/computers", {
-      crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
+      headers:{
+      authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU5NDEzNjgwMiwiaWF0IjoxNTk0MTMzMjAyfQ.nANEddZSNbdKdFVqfzLg3CJh7xExsknff1bJgyHRUg2diR_QoeZeSxXDV02U1Y5G-DX_MSNZ4fjBOmwfmf7lZQ"}
     });
   }
 

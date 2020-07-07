@@ -7,11 +7,9 @@ export class CompaniesApi {
 
   findAll() {
     return this.axios.get("/companies", {
+      headers:{
       crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
+      authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU5NDEzNjgwMiwiaWF0IjoxNTk0MTMzMjAyfQ.nANEddZSNbdKdFVqfzLg3CJh7xExsknff1bJgyHRUg2diR_QoeZeSxXDV02U1Y5G-DX_MSNZ4fjBOmwfmf7lZQ"}
     });
   }
 
