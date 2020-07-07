@@ -178,12 +178,12 @@ export default {
       this.isActiveDiscontinued =
         this.discontinued &&
         new Date(this.discontinued) > new Date(1971, 1, 1) 
-        // &&
-        // new Date(this.discontinued) < new Date() 
-        // &&
-        // (new Date(this.introduced) < new Date(this.discontinued)
-        //   ? true
-        //   : false);
+        &&
+        new Date(this.discontinued) < new Date() 
+        &&
+        (new Date(this.introduced) < new Date(this.discontinued)
+          ? true
+          : false);
     },
     formatDate(date) {
       if (!date) return null;
@@ -219,7 +219,6 @@ export default {
         this.isActiveDiscontinued
       ) {
         // Méthode POST ICI
-        console.log("Mon trou du coup")
         console.log({
           id: "",
           name: this.name,

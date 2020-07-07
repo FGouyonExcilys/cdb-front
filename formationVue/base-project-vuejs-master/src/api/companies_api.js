@@ -8,18 +8,20 @@ export class CompaniesApi {
   findAll() {
     return this.axios.get("/companies", {
       headers:{
-      crossdomain: true,
-      authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU5NDEzNjgwMiwiaWF0IjoxNTk0MTMzMjAyfQ.nANEddZSNbdKdFVqfzLg3CJh7xExsknff1bJgyHRUg2diR_QoeZeSxXDV02U1Y5G-DX_MSNZ4fjBOmwfmf7lZQ"}
+        authorization: sessionStorage.getItem('token')}
     });
   }
 
   create(company) {
     return this.axios.post("/companies", company, {
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",  authorization: sessionStorage.getItem('token') },
     });
   }
   delete(id) {
-    return this.axios.delete("/companies/" + id);
+    return this.axios.delete("/companies/" + id, {
+      headers:{
+        authorization: sessionStorage.getItem('token')}
+    });
   }
 }
 
