@@ -25,6 +25,16 @@ export class CompaniesApi {
     });
   }
 
+  findFirstPage() {
+    return this.axios.get("/companies?page=0&size=10", {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
+    });
+  }
+
   findPageSearch(search,page, size) {
     return this.axios.get('/companies?search='+search+'&page='+page+'&size='+size, {
       crossdomain: true,
@@ -56,7 +66,13 @@ export class CompaniesApi {
     });
   }
   delete(id) {
-    return this.axios.delete("/companies/" + id);
+    return this.axios.delete('/companies/' + id, {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
+    });
   }
 }
 

@@ -21,7 +21,7 @@
 					</form>-->
 				</div>
       			
-					  <button @click="show = !show">Delete</button>
+					  <button @click="handleDelete">Delete</button>
 				
 
 				<div class="pull-right">
@@ -39,8 +39,8 @@
 					<tr>
 
 						<th class="editMode" style="width: 60px; height: 22px;"><input
-							type="checkbox" id="selectall" /> <span
-							style="vertical-align: top;"> - <a href="#"
+							type="checkbox" id="selectall" hidden/> <span
+							style="vertical-align: top;">  <a href="#"
 								id="deleteSelected" > <i
 									class="fa fa-trash-o fa-lg"></i>
 								</a>
@@ -53,10 +53,10 @@
 				</thead>
 
 				<tbody id="results">
-					<span v-for="comp in result" :key="comp.name">
+					<span v-for="comp in result" :key="comp.id">
 						<tr class="evenOrOdd">
 							<td v-show="show" class="editMode"><input type="checkbox" name="cb"
-								class="cb" :value="comp.id"></td>
+								class="cb" :value="comp.id" v-model="checkedNames"></td>
 							<td><a href="editComputer?computerId=comp.id"
 								>{{comp.name}}</a></td>
 							<td>{{comp.introducedDate}}</td>
@@ -88,7 +88,7 @@
 				</li>
 				
 			</ul>
-
+	{{checkedNames}}
 		   </div>
 	   </footer>
 
@@ -113,6 +113,8 @@ export default {
 		urlPrevious: '',
 		urlNext: '',
 		show: false,
+		searchMod: false,
+		checkedNames: [],
     };
   },
   mounted: function() {
@@ -127,7 +129,20 @@ export default {
     
   },
   methods: {
+	  handleDelete() {
+		  if(this.show == false)
+			  this.show = true;
+			else {
+				for(var i = 0; i < this.checkedNames.length; i++) {
+					ComputersApi.delete(this.checkedNames[i]);
+				}
+				this.checkedNames= [];
+				this.show = false;
+			}
+	  },
+
 	  getUrlFirstSearch() {
+		  this.searchMod = true;
 		  this.pageIterator=0;
 		  this.pageSize=10;
 		  console.log(this.search);
@@ -140,16 +155,43 @@ export default {
 		  });
 	  },
 	  getUrlPrevious() {
-      this.pageIterator -= 1;
-		  ComputersApi.findPage(this.pageIterator,this.pageSize).then(response => {
-        this.result = response.data;
-      });
+		  if(this.search == '') {
+			 console.log('getUrlPrevious search vide'); 
+			  this.searchMod = false;
+		  }
+	  	this.pageIterator -= 1;
+	  	if(this.searchMod) {
+		  ComputersApi.findPageSearch(this.search,this.pageIterator,this.pageSize).then(response => {
+			 console.log('newSearch appelé dans méthode sans le créer dans data'); 
+			 console.log(response.data); 
+			  this.result = response.data;
+		  });
+		}
+		else {
+			ComputersApi.findPage(this.pageIterator,this.pageSize).then(response => {
+        		this.result = response.data;
+			});
+		}
 	  },
 	  getUrlNext() {
-      this.pageIterator += 1;
-		   ComputersApi.findPage(this.pageIterator,this.pageSize).then(response => {
-				this.result = response.data;
-      });
+		  if(this.search == '') {
+			  console.log('getUrlNext search vide');
+			  this.searchMod = false;
+		  }
+	  this.pageIterator += 1;
+	  if(this.searchMod) {
+	  	ComputersApi.findPageSearch(this.search,this.pageIterator,this.pageSize).then(response => {
+			 console.log('newSearch appelé dans méthode sans le créer dans data'); 
+			 console.log(response.data); 
+			  this.result = response.data;
+		  });
+		}
+		else {
+			ComputersApi.findPage(this.pageIterator,this.pageSize).then(response => {
+        		this.result = response.data;
+			});
+		}
+    
 		  
 	  }
   }

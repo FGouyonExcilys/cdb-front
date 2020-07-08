@@ -16,7 +16,7 @@ export class ComputersApi {
   }
 
   findFirstPage() {
-    return this.axios.get("/computers?page=1&size=10", {
+    return this.axios.get("/computers?page=0&size=10", {
       crossdomain: true,
       auth: {
         username: "admin",
@@ -66,7 +66,13 @@ export class ComputersApi {
     });
   }
   delete(id) {
-    return this.axios.delete("/computers/" + id);
+    return this.axios.delete('/computers/' + id, {
+      crossdomain: true,
+      auth: {
+        username: "admin",
+        password: "admin",
+      },
+    });
   }
 }
 
