@@ -1,6 +1,6 @@
 <template>
   <div class="computers">
-    <EditComputer/>
+    <EditComputer :id="575"/>
   </div>
 </template>
 
