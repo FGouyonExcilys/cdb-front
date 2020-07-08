@@ -58,7 +58,7 @@
                   v-on="on"
                 >
                   <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
+          <v-icon>mdi-account</v-icon>
         </v-btn>
                 </v-btn>
               </template>
