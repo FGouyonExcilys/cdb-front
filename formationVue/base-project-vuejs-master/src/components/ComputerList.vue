@@ -12,32 +12,38 @@
               <v-list-item>
                 <v-list-item-title>{{item.name}}</v-list-item-title>
               </v-list-item>
-              <v-list-item-subtitle v-if="item.introducedDate">Introduced Date: {{item.introducedDate}}</v-list-item-subtitle>
+              <v-list-item-subtitle
+                v-if="item.introducedDate"
+              >Introduced Date: {{item.introducedDate}}</v-list-item-subtitle>
               <v-list-item-subtitle v-else>No introduced date</v-list-item-subtitle>
-              <br/>
-              <v-list-item-subtitle v-if="item.discontinuedDate">Discontinued Date: {{item.discontinuedDate}}</v-list-item-subtitle>
+              <br />
+              <v-list-item-subtitle
+                v-if="item.discontinuedDate"
+              >Discontinued Date: {{item.discontinuedDate}}</v-list-item-subtitle>
               <v-list-item-subtitle v-else>No discontinued date</v-list-item-subtitle>
-              <br/>
+              <br />
               <v-list-item-subtitle v-if="item.companyDTO">Company: {{item.companyDTO.name}}</v-list-item-subtitle>
               <v-list-item-subtitle v-else>No company assigned</v-list-item-subtitle>
-              <br/>
+              <br />
             </v-list-item-content>
-          </v-list-item><br/>
+          </v-list-item>
+          <br />
         </v-list>
       </v-card>
     </v-container>
 
     <v-row justify="center">
-        <v-col cols="6">
-          <v-container class="max-width">
-            <v-pagination
-              v-model="page"
-              class="my-4"
-              :length="15"
-            ></v-pagination>
-          </v-container>
-        </v-col>
-      </v-row>
+      <v-col cols="6">
+        <v-container class="max-width">
+          <v-pagination v-model="page" class="my-4" :length="nbPages"></v-pagination>
+        </v-container>
+      </v-col>
+    </v-row>
+    <v-row align="right">
+      <div class="my-2">
+        <v-btn small>Normal</v-btn>
+      </div>
+    </v-row>
   </div>
   <!-- <h1>COMPUTER LIST</h1>
 
@@ -52,13 +58,29 @@ export default {
     return {
       computerList: [],
       page: 1,
+      step: 10,
+      nbComputers: 1,
+      nbPages: Math.ceil(nbComputers/step),
     };
   },
   mounted: function() {
-    ComputersApi.findAll().then(
+    ComputersApi.findComputersPaginated(this.page, this.size).then(
       response => (this.computerList = response.data)
     );
     console.log(this.computerList);
+    ComputersApi.findNumberOfComputers().then(response => this.nbComputers = response.date);
+  },
+
+  computed: {
+    computedStep10() {
+      this.step = 10;
+    },
+    computedStep50() {
+      this.step = 50;
+    },
+    computedStep100() {
+      this.step = 100;
+    },
   }
 };
 </script>

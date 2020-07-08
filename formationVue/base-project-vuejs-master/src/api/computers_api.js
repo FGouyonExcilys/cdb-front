@@ -17,6 +17,18 @@ export class ComputersApi {
       authorization: sessionStorage.getItem('token')}
     });
   }
+  findComputersPaginated(page,size){
+    return this.axios.get("/computers?page=" + page + "&size=" + size, {
+      headers:{
+      authorization: sessionStorage.getItem('token')}
+    });
+  }
+  findNumberOfComputers(){
+    return this.axios.get("/numbers", {
+      headers:{
+      authorization: sessionStorage.getItem('token')}
+    });
+  }
 
   findOne(id){
     return this.axios.get("/computers/" + id, {
