@@ -1,38 +1,74 @@
 <template>
-  <div>
-    <ul>
-      <h1>COMPUTER LIST</h1>
+  <div type="text/x-template" id="app-template">
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+    <v-container v-for="item in computerList" :key="item.id">
+      <v-card class="mx-auto" max-width="300">
+        <v-list>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item>
+                <v-list-item-title>{{item.name}}</v-list-item-title>
+              </v-list-item>
+              <v-list-item-subtitle v-if="item.introducedDate">Introduced Date: {{item.introducedDate}}</v-list-item-subtitle>
+              <v-list-item-subtitle v-else>No introduced date</v-list-item-subtitle>
+              <br/>
+              <v-list-item-subtitle v-if="item.discontinuedDate">Discontinued Date: {{item.discontinuedDate}}</v-list-item-subtitle>
+              <v-list-item-subtitle v-else>No discontinued date</v-list-item-subtitle>
+              <br/>
+              <v-list-item-subtitle v-if="item.companyDTO">Company: {{item.companyDTO.name}}</v-list-item-subtitle>
+              <v-list-item-subtitle v-else>No company assigned</v-list-item-subtitle>
+              <br/>
+            </v-list-item-content>
+          </v-list-item><br/>
+        </v-list>
+      </v-card>
+    </v-container>
 
-      <li v-for="computer in result" :key="computer.id">{{computer.name}}</li>
-    </ul>
+    <v-row justify="center">
+        <v-col cols="6">
+          <v-container class="max-width">
+            <v-pagination
+              v-model="page"
+              class="my-4"
+              :length="15"
+            ></v-pagination>
+          </v-container>
+        </v-col>
+      </v-row>
   </div>
+  <!-- <h1>COMPUTER LIST</h1>
+
+  <li v-for="computer in result" :key="computer.id">{{computer.name}}</li>-->
 </template>
 
 <script>
 import ComputersApi from "../api/computers_api";
 
-
 export default {
   data: function() {
     return {
-      result: []
+      computerList: [],
+      page: 1,
     };
   },
   mounted: function() {
-    ComputersApi.findAll().then(response =>
-      this.result = response.data
+    ComputersApi.findAll().then(
+      response => (this.computerList = response.data)
     );
-    console.log(this.result);
+    console.log(this.computerList);
   }
 };
 </script>
 
 <style>
 tr:nth-of-type(odd) {
-	background-color: #fff;
+  background-color: #fff;
 }
 
 tr:nth-of-type(even) {
-	background-color: #ccc;
+  background-color: #ccc;
 }
 </style>
