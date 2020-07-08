@@ -14,15 +14,14 @@
         :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
         :counter="60" 
         :rules="nameRulesPassword" 
-        clearable label="password" 
+          label="password" 
         @click:append="showPass = !showPass" required></v-text-field>
 
         <v-text-field v-model="passwordConfirm" 
-        :type="showPass ? 'text' : 'password'"  
-        :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="'password'"  
         :counter="60" 
-        :rules="nameRulesPassword" 
-        clearable label="confirmation password" 
+        :rules="passwordConfirmationRules" 
+        label="confirmation password" 
         @click:append="showPass = !showPass" required></v-text-field>
        
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Register</v-btn>
@@ -55,7 +54,7 @@ export default {
         nameRulesPassword: [
       v => !!v || "password is required",
       v => (v && v.length <= 60) || "Name must be less than 60 characters",
-      v => (v && v.length >= 8) || "Name must be more than 7 characters",
+      v => (v && v.length >= 9) || "Name must be more than 8 characters",
       value => {
           const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
           return (
@@ -63,7 +62,6 @@ export default {
             "Min. 8 characters with at least one capital letter, a number and a special character."
           );
         }
-
         ],
         isOkPasswords: false,
         lazy: false,
@@ -72,10 +70,13 @@ export default {
 
   }),
   computed: {
-    passwordConfirmationRule() {
-      return (this.password === this.passwordConfirm) || 'Password must match'
-        },
+    passwordConfirmationRules() {
+      return [
+        () => (this.password === this.passwordConfirm) || 'password must match',
+        v => !!v || 'Confirmation password is required'
+      ];
     },
+},
 
   props: {},
   methods: {

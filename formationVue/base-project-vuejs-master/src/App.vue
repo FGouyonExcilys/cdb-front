@@ -5,7 +5,6 @@
       <div v-if=!isLogged><router-link to="/login" >Login</router-link></div>
       <div v-else>
          <router-link to="/login">Logout</router-link> |
-      <router-link to="/about">About</router-link> |
       <router-link to="/computers">Computers</router-link> |
       <router-link to="/addComputer">Add Computer</router-link> |
       <router-link to="/editComputer">Edit Computer</router-link> |

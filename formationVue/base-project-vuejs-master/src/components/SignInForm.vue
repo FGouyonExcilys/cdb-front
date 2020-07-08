@@ -6,6 +6,8 @@
         rel="stylesheet"
       />
 
+      
+      <AlertC v-if=isWrongCredential :message="message"  />
       <v-form ref="form" v-model="valid" :lazy-validation="lazy">
         <v-text-field v-model="username" :counter="60" :rules="nameRulesUser" clearable label="Username" required></v-text-field>
 
@@ -28,13 +30,13 @@
 
 <script>
 import { userApi } from "../api/users_api";
+import AlertC from '@/components/AlertComponent.vue';
+
+
 export default {
-
-
-
-
   data: vm => ({
         name: "Connection",
+        message: "Something gone wrong with credential",
         username: "",
         password: "",
         valid: true,
@@ -49,14 +51,14 @@ export default {
         isOk: false,
         lazy: false,
         showPass: false,
-
-
-
+        isWrongCredential: false,
   }),
+   components: { AlertC },
+
       mounted: function() {
         if(sessionStorage.getItem('token')){
             userApi.logout()
-            this.$router.push('/home')
+            this.$router.push('/')
         }
     },
 
@@ -64,12 +66,20 @@ export default {
   methods: {
     loginMethod() {
       userApi.login(this.username, this.password).then((response) => {
+        try{
         let token = 'token';
         let StringBearer = 'Bearer '.concat(response.data);
         sessionStorage.setItem(token, StringBearer);
+        this.isWrongCredential=false;
         this.$router.push('/computers');
+        }catch(error){
+          this.isWrongCredential=true;
+        }
       },
-      );
+      ).catch(function (error) {
+        
+
+      });
     },
      reset() {
       this.$refs.form.reset();
@@ -79,9 +89,17 @@ export default {
     },
     validate: function() {
 
+      const encryptedText = this.CryptoJS.AES.encrypt("Hi There!", "Secret Passphrase").toString()
+
+      console.log(encryptedText);
+      const decryptedText = this.CryptoJS.AES.decrypt(encryptedText, "Secret Passphrase").toString(this.CryptoJS.enc.Utf8)
+
+      console.log(decryptedText);
+
         this.loginMethod();
 
     },
+    
   
   
   
