@@ -7,21 +7,21 @@ export class CompaniesApi {
 
   findAll() {
     return this.axios.get("/companies", {
-      crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
+      headers:{
+        authorization: sessionStorage.getItem('token')}
     });
   }
 
   create(company) {
     return this.axios.post("/companies", company, {
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",  authorization: sessionStorage.getItem('token') },
     });
   }
   delete(id) {
-    return this.axios.delete("/companies/" + id);
+    return this.axios.delete("/companies/" + id, {
+      headers:{
+        authorization: sessionStorage.getItem('token')}
+    });
   }
 }
 

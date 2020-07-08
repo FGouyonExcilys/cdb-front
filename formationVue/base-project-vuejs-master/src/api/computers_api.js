@@ -7,46 +7,31 @@ export class ComputersApi {
 
   create(computer) {
     return this.axios.post("/computers", computer, {
-      crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",  authorization: sessionStorage.getItem('token') },
     });
   }
 
   findAll() {
     return this.axios.get("/computers", {
-      crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
+      headers:{
+      authorization: sessionStorage.getItem('token')}
     });
   }
 
   findOne(id){
     return this.axios.get("/computers/" + id, {
-      crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
+      headers:{
+      authorization: sessionStorage.getItem('token')}
     });
   }
   update(id, computer){
-    return this.axios.put("/computers/" + id, computer, {
-      crossdomain: true,
-      auth: {
-        username: "admin",
-        password: "admin",
-      },
-      headers: { "Content-Type": "application/json" },
-    });
+    return this.axios.put("/computers/" + id, computer, {headers: { "Content-Type": "application/json",  authorization: sessionStorage.getItem('token') }});
   }
   delete(id) {
-    return this.axios.delete("/computers/" + id);
+    return this.axios.delete("/computers/" + id , {
+      headers:{
+      authorization: sessionStorage.getItem('token')}
+    });
   }
 }
 

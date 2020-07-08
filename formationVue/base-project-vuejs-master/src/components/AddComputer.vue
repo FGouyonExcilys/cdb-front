@@ -177,8 +177,10 @@ export default {
       console.log("Validate Discontinued");
       this.isActiveDiscontinued =
         this.discontinued &&
-        new Date(this.discontinued) > new Date(1971, 1, 1) &&
-        new Date(this.discontinued) < new Date() &&
+        new Date(this.discontinued) > new Date(1971, 1, 1) 
+        &&
+        new Date(this.discontinued) < new Date() 
+        &&
         (new Date(this.introduced) < new Date(this.discontinued)
           ? true
           : false);
