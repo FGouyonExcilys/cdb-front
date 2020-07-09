@@ -6,6 +6,8 @@
         rel="stylesheet"
       />
 
+      
+      <AlertC v-if=isWrongCredential :message="message"  />
       <v-form ref="form" v-model="valid" :lazy-validation="lazy">
         <v-text-field
           v-model="username"
@@ -39,6 +41,7 @@
 
 <script>
 import { userApi } from "../api/users_api";
+<<<<<<< HEAD
 export default {
   data: vm => ({
     name: "Connection",
@@ -46,12 +49,26 @@ export default {
     password: "",
     valid: true,
     nameRulesUser: [
+=======
+import AlertC from '@/components/AlertComponent.vue';
+
+
+export default {
+  data: vm => ({
+        name: "Connection",
+        message: "Something gone wrong with credential",
+        username: "",
+        password: "",
+        valid: true,
+        nameRulesUser: [
+>>>>>>> 1e602aa1cab453436c2e056889610b728e91d260
       v => !!v || "username is required",
       v => (v && v.length <= 60) || "Name must be less than 10 characters"
     ],
     nameRulesPassword: [
       v => !!v || "password is required",
       v => (v && v.length <= 60) || "Name must be less than 10 characters"
+<<<<<<< HEAD
     ],
     isOk: false,
     lazy: false,
@@ -63,16 +80,48 @@ export default {
       this.$router.push("/home");
     }
   },
+=======
+        ],
+        isOk: false,
+        lazy: false,
+        showPass: false,
+        isWrongCredential: false,
+  }),
+   components: { AlertC },
+
+      mounted: function() {
+        if(sessionStorage.getItem('token')){
+            userApi.logout()
+            this.$router.push('/')
+        }
+    },
+>>>>>>> 1e602aa1cab453436c2e056889610b728e91d260
 
   props: {},
   methods: {
     loginMethod() {
+<<<<<<< HEAD
       userApi.login(this.username, this.password).then(response => {
         let token = "token";
         let StringBearer = "Bearer ".concat(response.data);
         sessionStorage.setItem(token, StringBearer);
         this.$router.push("/computers");
       });
+=======
+
+      let encodedPassword = this.CryptoJS.SHA1(this.password).toString()
+      userApi.login(this.username, encodedPassword).then((response) => {
+        let token = 'token';
+        let StringBearer = 'Bearer '.concat(response.data);
+        sessionStorage.setItem(token, StringBearer);
+        this.isWrongCredential=false;
+        this.$router.push('/computers');
+      },
+      ).catch(function(error){
+
+      }
+       );
+>>>>>>> 1e602aa1cab453436c2e056889610b728e91d260
     },
     reset() {
       this.$refs.form.reset();
@@ -81,9 +130,31 @@ export default {
       this.$refs.form.resetValidation();
     },
     validate: function() {
+<<<<<<< HEAD
       this.loginMethod();
     }
   }
+=======
+
+        this.loginMethod();
+
+    },
+    setWrongCredentialToTrue: function() {
+
+       this.isWrongCredential=true;
+
+    },
+    
+  
+  
+  
+  },
+    
+    
+
+
+  
+>>>>>>> 1e602aa1cab453436c2e056889610b728e91d260
 };
 </script>
 
