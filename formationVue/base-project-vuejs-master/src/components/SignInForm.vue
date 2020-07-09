@@ -75,7 +75,7 @@ export default {
         this.$router.push('/computers');
       },
       ).catch(function(error){
-          this$.setWrongCredentialToTrue()
+
       }
        );
     },
