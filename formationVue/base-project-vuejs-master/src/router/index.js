@@ -52,7 +52,7 @@ const routes = [
     }
   },
   {
-    path: '/editComputer/:id',
+    path: '/editComputer',
     name: 'EditComputer',
     component: function () {
       return import('../views/EditComputer.vue')

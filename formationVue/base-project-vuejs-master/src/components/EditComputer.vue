@@ -5,9 +5,27 @@
         href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
         rel="stylesheet"
       />
-      <h1>EDIT COMPUTER FORM</h1><br/>
+      <h1>EDIT COMPUTER FORM</h1>
+      <br />
+
+      <v-row>
+        <v-col cols="12" sm="10">
+          <v-text-field v-model="id" label="Search" outlined shaped></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="2">
+          <v-btn :click="editId">Filtrer</v-btn>
+        </v-col>
+      </v-row>
+
       <v-form ref="form" v-model="valid" :lazy-validation="lazy">
-        <v-text-field v-model="name" :counter="60" :rules="nameRules" clearable label="Name" required></v-text-field>
+        <v-text-field
+          v-model="name"
+          :counter="60"
+          :rules="nameRules"
+          clearable
+          label="Name"
+          required
+        ></v-text-field>
         <v-row>
           <v-col cols="12" lg="6">
             <v-menu
@@ -32,7 +50,12 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="introduced" no-title @input="menu1 = false" color="green lighten-1"></v-date-picker>
+              <v-date-picker
+                v-model="introduced"
+                no-title
+                @input="menu1 = false"
+                color="green lighten-1"
+              ></v-date-picker>
             </v-menu>
             <p>
               Date in ISO format:
@@ -61,7 +84,13 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="discontinued" no-title @input="menu2 = false" color="green lighten-1" header-color="primary"></v-date-picker>
+              <v-date-picker
+                v-model="discontinued"
+                no-title
+                @input="menu2 = false"
+                color="green lighten-1"
+                header-color="primary"
+              ></v-date-picker>
             </v-menu>
             <p>
               Date in ISO format:
@@ -93,21 +122,17 @@ import ComputersApi from "../api/computers_api";
 import CompaniesApi from "../api/companies_api";
 
 export default {
-  props: {
-    id: Number
-  },
-  name: 'EditComputer',
+  name: "EditComputer",
   template: "#addComputer",
   icons: {
-    iconfont: 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+    iconfont: "mdi" || "mdiSvg" || "md" || "fa" || "fa4" || "faSvg"
   },
 
   data: vm => ({
     errors: [],
     companyList: [],
     computerToEdit: {},
-    idToReturn: 0,
-
+    id: 0,
     introducedFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
     discontinuedFormatted: vm.formatDate(
       new Date().toISOString().substr(0, 10)
@@ -141,6 +166,23 @@ export default {
     },
     computedDiscontinuedFormatted() {
       return this.formatDate(this.discontinued);
+    },
+    editId() {
+      this.id = parseInt(this.id);
+      CompaniesApi.findAll().then(
+        response => (this.companyList = response.data)
+      );
+      // this.idToReturn = this.$route.params.id;
+
+      ComputersApi.findOne(this.id).then(
+        function(response) {
+          this.computerToEdit = response.data;
+          this.name = this.computerToEdit.name;
+          this.introduced = this.computerToEdit.introducedDate;
+          this.discontinued = this.computerToEdit.discontinuedDate;
+          this.companyId = this.computerToEdit.companyDTO.id;
+        }.bind(this)
+      );
     }
   },
 
@@ -155,11 +197,10 @@ export default {
 
   mounted: function() {
     CompaniesApi.findAll().then(response => (this.companyList = response.data));
-    console.log(this.companyList);
+   
+    // this.idToReturn = this.$route.params.id;
 
-    this.idToReturn = this.$route.params.id;
-
-    ComputersApi.findOne(this.idToReturn).then(
+    ComputersApi.findOne(this.id).then(
       function(response) {
         this.computerToEdit = response.data;
         this.name = this.computerToEdit.name;
@@ -238,19 +279,19 @@ export default {
         this.isActiveDiscontinued
       ) {
         console.log({
-          id: this.idToReturn,
+          id: this.id,
           name: this.name,
           introducedDate: this.introduced,
           discontinuedDate: this.discontinued,
           companyDTO: { id: this.companyId, name: "" }
         });
         // Méthode PUT ICI
-        ComputersApi.update(this.idToReturn, {
-          "id": this.idToReturn,
-          "name": this.name,
-          "introducedDate": this.introduced,
-          "discontinuedDate": this.discontinued,
-          "companyDTO": { "id": this.companyId, "name": "" }
+        ComputersApi.update({
+          id: this.id,
+          name: this.name,
+          introducedDate: this.introduced,
+          discontinuedDate: this.discontinued,
+          companyDTO: { id: this.companyId, name: "" }
         }).catch(function(error) {
           console.log(error);
         });

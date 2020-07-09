@@ -13,7 +13,7 @@
                 <v-list-item-title>
                   <!-- <router-link :to="{name: 'EditComputer', params: {id: item.id}}"> -->
 					{{item.name}}
-				  <!-- </router-link> -->
+				   <!-- </router-link> -->
                 </v-list-item-title>
               </v-list-item>
               <v-list-item-subtitle v-if="item.introducedDate">
