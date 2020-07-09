@@ -20,8 +20,4 @@ describe('AddComputer', () => {
       expect(wrapper.contains('div')).toBe(true)
     })
 
-    
-      
-
-
   })
