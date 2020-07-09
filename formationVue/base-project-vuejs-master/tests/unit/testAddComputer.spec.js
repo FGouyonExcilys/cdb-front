@@ -12,7 +12,7 @@ describe('AddComputer', () => {
     var nbComputers = 0
     var nbComputersAfterAdd = 0
     it('renders the correct markup', () => {
-      expect(wrapper.html()).toContain('<h1>ADD COMPUTER FORM</h1>')
+      expect(wrapper.html()).toContain('<v-container>')
     })
   
     // it's also easy to check for the existence of elements
@@ -20,15 +20,7 @@ describe('AddComputer', () => {
       expect(wrapper.contains('div')).toBe(true)
     })
 
-    it('verify add', () => {
-        console.log(wrapperComputerList.vm.getUrlFirstSearch())
-        nbComputers = wrapper.vm.getFindAllLength();
-        const  vbtn = wrapper.find('#validate')
-        vbtn.trigger('click')
-        console.log(wrapper.vm.getFindAllLength());
-        nbComputersAfterAdd = wrapper.vm.getFindAllLength();
-        //expect(nbComputersAfterAdd).toBe(nbComputers+1)
-      })
+    
       
 
 
