@@ -99,7 +99,6 @@
 <script>
 import ComputersApi from "../api/computers_api";
 
-
 export default {
   data: function() {
     return {
@@ -145,12 +144,9 @@ export default {
 		  this.searchMod = true;
 		  this.pageIterator=0;
 		  this.pageSize=10;
-		  console.log(this.search);
-		  console.log('AAAAAAAAAAAAAAAAA');
-		  console.log(this.search);
 		  ComputersApi.findPageSearch(this.search,this.pageIterator,this.pageSize).then(response => {
 			 console.log('newSearch appelé dans méthode sans le créer dans data'); 
-			 console.log(response.data); 
+			  
 			  this.result = response.data;
 		  });
 	  },
@@ -163,7 +159,7 @@ export default {
 	  	if(this.searchMod) {
 		  ComputersApi.findPageSearch(this.search,this.pageIterator,this.pageSize).then(response => {
 			 console.log('newSearch appelé dans méthode sans le créer dans data'); 
-			 console.log(response.data); 
+			  
 			  this.result = response.data;
 		  });
 		}
@@ -181,8 +177,7 @@ export default {
 	  this.pageIterator += 1;
 	  if(this.searchMod) {
 	  	ComputersApi.findPageSearch(this.search,this.pageIterator,this.pageSize).then(response => {
-			 console.log('newSearch appelé dans méthode sans le créer dans data'); 
-			 console.log(response.data); 
+			 console.log('newSearch appelé dans méthode sans le créer dans data');  
 			  this.result = response.data;
 		  });
 		}

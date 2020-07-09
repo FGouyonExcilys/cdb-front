@@ -1,5 +1,4 @@
 import { axios } from "./index";
-
 export class ComputersApi {
   constructor(axiosInstance) {
     this.axios = axiosInstance;

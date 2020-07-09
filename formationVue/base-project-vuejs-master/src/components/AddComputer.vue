@@ -80,7 +80,7 @@
           required
         ></v-select>
 
-        <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Validate</v-btn>
+        <v-btn :disabled="!valid" color="success" class="mr-4" id="validate" @click="validate">Validate</v-btn>
 
         <v-btn color="warning" @click="resetValidation">Cancel</v-btn>
       </v-form>
@@ -100,6 +100,7 @@ export default {
   data: vm => ({
     errors: [],
     companyList: [],
+    computerList: [],
 
     introducedFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
     discontinuedFormatted: vm.formatDate(
@@ -152,6 +153,7 @@ export default {
   },
 
   methods: {
+    
     show() {
       alert(
         "Name : " +

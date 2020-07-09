@@ -91,7 +91,6 @@
 <script>
 import CompaniesApi from "../api/companies_api";
 
-
 export default {
   data: function() {
     return {
