@@ -112,14 +112,17 @@ export class ComputersApi {
       },
     });
   }
-  update(id, computer) {
-    return this.axios.put("/computers/" + id, computer, {
+
+  update(computer) {
+    return this.axios.put("/computers/" + computer.id, computer, {
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
         authorization: sessionStorage.getItem("token"),
       },
     });
   }
+
   delete(id) {
     return this.axios.delete("/computers/" + id, {
       headers: {
