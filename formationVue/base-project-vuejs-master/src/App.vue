@@ -25,11 +25,8 @@
               <v-list>
                <v-list-items>
       
-        <v-list-item-title><router-link to="/">Home</router-link></v-list-item-title>
-         
-        
-        
-       <v-list-item-title><router-link to="/computers">Computers</router-link></v-list-item-title>
+      <v-list-item-title><router-link to="/">Home</router-link></v-list-item-title>
+      <v-list-item-title><router-link to="/computers">Computers</router-link></v-list-item-title>
       <v-list-item-title><router-link to="/companies">Companies</router-link></v-list-item-title>
       <v-list-item-title><router-link to="/addComputer">Add Computer</router-link></v-list-item-title>
       <v-list-item-title><router-link to="/editComputer">Edit Computer</router-link></v-list-item-title>
