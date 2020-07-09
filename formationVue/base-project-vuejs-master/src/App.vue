@@ -8,38 +8,51 @@
         elevate-on-scroll
         scroll-target="#scrolling-techniques-7"
       >
-        <v-menu transition="slide-x-transition" bottom right>
+        <v-menu
+          transition="slide-x-transition"
+          bottom
+          right
+          :close-on-content-click="false"
+          :nudge-width="80"
+        >
           <template v-slot:activator="{ on, attrs }">
             <v-btn dark icon v-bind="attrs" v-on="on">
               <v-app-bar-nav-icon></v-app-bar-nav-icon>
             </v-btn>
           </template>
-          <div v-if="isLogged">
-            <v-list>
-              <v-list-items>
-                <v-list-item-title>
-                  <router-link to="/">Home</router-link>
-                </v-list-item-title>
+          <v-list v-if="isLogged">
+            <v-list-items>
+              <v-list-item-title>
+                <router-link to="/" class="router-link">Home</router-link>
+              </v-list-item-title>
 
-                <v-list-item-title>
-                  <router-link to="/computers">Computers</router-link>
-                </v-list-item-title>
-                <v-list-item-title>
-                  <router-link to="/companies">Companies</router-link>
-                </v-list-item-title>
-                <v-list-item-title>
-                  <router-link to="/addComputer">Add Computer</router-link>
-                </v-list-item-title>
-              </v-list-items>
-            </v-list>
-          </div>
+              <v-list-item-title>
+                <router-link to="/computers" class="router-link">Computers</router-link>
+              </v-list-item-title>
+              <v-list-item-title>
+                <router-link to="/companies" class="router-link">Companies</router-link>
+              </v-list-item-title>
+              <v-list-item-title>
+                <router-link to="/addComputer" class="router-link">Add Computer</router-link>
+              </v-list-item-title>
+              <v-list-item-title>
+                <router-link to="/editComputer" class="router-link">Edit Computer</router-link>
+              </v-list-item-title>
+            </v-list-items>
+          </v-list>
         </v-menu>
 
         <v-toolbar-title>Application Database</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
-        <v-menu transition="slide-x-transition" bottom right>
+        <v-menu
+          transition="slide-x-transition"
+          bottom
+          right
+          :close-on-content-click="false"
+          :nudge-width="50"
+        >
           <template v-slot:activator="{ on, attrs }">
             <v-btn dark icon v-bind="attrs" v-on="on">
               <v-btn icon>
@@ -48,7 +61,7 @@
             </v-btn>
           </template>
 
-          <v-list>
+          <v-list flat>
             <!--<v-list-item
                   v-for="(item, i) in itemsConnection"
                   :key="i"
@@ -57,22 +70,18 @@
                   <v-list-item-title><router-link to="/">{{ item.title }}</router-link> </v-list-item-title>
             </v-list-item>-->
             <v-list-items>
-              <div v-if="!isLogged">
-                <v-list-item-title>
-                  <router-link to="/login">Login</router-link>
-                </v-list-item-title>
-              </div>
-              <div v-else>
-                <v-list-item-title>
-                  <router-link to="/">Home</router-link>
-                </v-list-item-title>
-                <v-list-item-title>
-                  <router-link to="/login">Logout</router-link>
-                </v-list-item-title>
-              </div>
+              <v-list-item-title v-if="!isLogged">
+                <router-link to="/login" class="router-link">Login</router-link>
+              </v-list-item-title>
+              <v-list-item-title v-else>
+                <router-link to="/login" class="router-link">Logout</router-link>
+              </v-list-item-title>
 
               <v-list-item-title>
-                <router-link to="/register">Register</router-link>
+                <router-link to="/" class="router-link">Home</router-link>
+              </v-list-item-title>
+              <v-list-item-title>
+                <router-link to="/register" class="router-link">Register</router-link>
               </v-list-item-title>
             </v-list-items>
           </v-list>
@@ -130,6 +139,26 @@ export default {
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+}
+
+.router-link {
+  background-color: white;
+  border-radius: 30px;
+  color: black;
+  border: none;
+  color: white;
+  padding: 1px 32px;
+  margin: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family:monaco;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.router-link:hover {
+  background-color: #e7e7e7;
 }
 
 #nav a.router-link-exact-active {

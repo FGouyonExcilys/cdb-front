@@ -1,5 +1,5 @@
 <template>
-  <div class="computers">
+  <div vclass="computers">
     <EditComputer/>
   </div>
 </template>
