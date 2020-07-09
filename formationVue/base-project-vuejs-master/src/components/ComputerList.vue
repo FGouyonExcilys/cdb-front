@@ -10,7 +10,11 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item>
-                <v-list-item-title>{{item.name}}</v-list-item-title>
+                <v-list-item-title>
+                  <!-- <router-link :to="{name: 'EditComputer', params: {id: item.id}}"> -->
+					{{item.name}}
+				  <!-- </router-link> -->
+                </v-list-item-title>
               </v-list-item>
               <v-list-item-subtitle v-if="item.introducedDate">
                 <u>Introduced Date</u>
@@ -46,8 +50,12 @@
     <v-row justify="center">
       <v-col cols="6">
         <v-container class="max-width">
-          <v-pagination v-model="pagination.page" class="my-4" :length="pages"
-          @input="reloadComputerList"></v-pagination>
+          <v-pagination
+            v-model="pagination.page"
+            class="my-4"
+            :length="pages"
+            @input="reloadComputerList"
+          ></v-pagination>
         </v-container>
       </v-col>
     </v-row>
@@ -69,15 +77,14 @@ export default {
     return {
       computerListPaginated: [],
       computerList: [],
-      nbComputers: 1,
       pagination: {
         page: 1,
-        step: 10,
+        step: 10
       }
     };
   },
   mounted: function() {
-    ComputersApi.findComputersPaginated(1, 10).then(
+    ComputersApi.findComputersPaginated(0, 10).then(
       response => (this.computerListPaginated = response.data)
     );
     ComputersApi.findAll().then(
@@ -89,6 +96,7 @@ export default {
       this.pagination.step = 10;
       this.pagination.page = 1;
       this.reloadComputerList();
+      console.log(this.computerList);
     },
     step50() {
       this.pagination.step = 50;
@@ -100,9 +108,9 @@ export default {
       this.pagination.page = 1;
       this.reloadComputerList();
     },
-    reloadComputerList(){
+    reloadComputerList() {
       ComputersApi.findComputersPaginated(
-        this.pagination.page-1,
+        this.pagination.page - 1,
         this.pagination.step
       ).then(response => (this.computerListPaginated = response.data));
     }
@@ -110,8 +118,8 @@ export default {
   computed: {
     pages() {
       return this.pagination.step
-        ? Math.ceil(this.computerList.length/ this.pagination.step -1)
-        : 0;
+        ? Math.ceil(this.computerList.length / this.pagination.step)
+        : 10;
     }
   }
 };
