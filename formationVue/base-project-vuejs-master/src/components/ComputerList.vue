@@ -7,23 +7,24 @@
 	<v-card>
 		<v-container fluid>
       		<v-row>
-		  		<v-col cols="12" sm="10"> <v-text-field v-model="search" label="Search" outlined shaped > </v-text-field></v-col>
-		  		<v-col cols="12" sm="2"> <v-btn v-on:click="getUrlFirstSearch">Filtrer</v-btn> </v-col>
-      		</v-row>
-
-			<v-row justify="center" align="center">
-				<v-col cols="12" sm="10" >
-        		<v-chip-group active-class="primary--text" v-model="order">
-          			<v-chip value="name">name</v-chip>
+		  		<v-col cols="12" md="8"> <v-text-field v-model="search"  @keydown.enter="reloadComputerList" label="Search" outlined shaped > </v-text-field></v-col>
+				<v-col cols="12" md="4">
+				 <v-text-field  :value="message" outlined shaped :disabled="true" filled >  </v-text-field>
+				</v-col>
+        	<v-col cols="12" md="12" >
+        		<v-chip-group active-class="primary--text" v-model="order" >
+          			<v-chip value="name" >name</v-chip>
         			<v-chip value="introduced">Introduced Date</v-chip>
-        			<v-chip value="discontinued">Discontinued Date</v-chip>
-         			<v-chip value="company">Company</v-chip>
+        			<v-chip value="discontinued" >Discontinued Date</v-chip>
+         			<v-chip value="company" >Company</v-chip>
        			</v-chip-group>
 				</v-col>
-				<v-col cols="12" sm="2">
-				Nb Computer : {{NbComputers}}
-				</v-col>
+
      		</v-row>
+         	<v-row justify="center" align="center">
+         			  </v-row>
+
+			 <v-col cols="12" md="18"> <v-btn v-on:click="reloadComputerList"><span>Filtrer</span></v-btn> </v-col>
     	</v-container>
 
 	<v-row justify="center">
@@ -129,11 +130,16 @@ export default {
   },
   mounted: function() {
 	ComputersApi.findComputersPaginated(0, 10).then(
-      response => (this.computerListPaginated = response.data)
+	  response => (this.computerListPaginated = response.data)
     );
     ComputersApi.findAll().then(
       response => (this.computerList = response.data)
-    );
+	);
+	 ComputersApi.findNumberOfComputers().then(
+      response => (this.nbComputers = response.data)
+	);
+	
+
     
   },
   methods: {
@@ -154,18 +160,38 @@ export default {
       this.reloadComputerList();
     },
     reloadComputerList() {
+		console.info(this.order);
 
-		if(this.searchMod && !this.orderMod){
+		if(this.search && !this.order){
+			console.info("AAAAAAAAAAAAA");
+			ComputersApi.findPageSearch(this.search,
+     		   this.pagination.page - 1,
+ 		       this.pagination.step
+			  ).then(response => (this.computerListPaginated = response.data)).catch(this.computerListPaginated = null);
+			  ComputersApi.findNumberOfComputersSearch(this.search).then(response => { this.nbComputers = response.data});
 
-		}else if(this.orderMod && !this.searchMod){
-
-		}else if(this.orderMod && this.searchMod ){
-
+		}else if(this.order && !this.search){
+			console.info("B");
+			ComputersApi.findPageOrder(this.pagination.page - 1,
+				this.pagination.step,
+				this.order
+        ).then(response => (this.computerListPaginated = response.data)).catch(this.computerListPaginated = null);
+         ComputersApi.findNumberOfComputers().then(response => { this.nbComputers = response.data});
+		}else if(this.order && this.search ){
+			console.info("c");
+			ComputersApi.findPageSearchOrder(this.search,
+				this.pagination.page - 1,
+				this.pagination.step,
+				this.order
+        ).then(response => (this.computerListPaginated = response.data)).catch(this.computerListPaginated = null);
+         ComputersApi.findNumberOfComputersSearch().then(response => { this.nbComputers = response.data});
 		}else {
+			console.info("d");
      		 ComputersApi.findComputersPaginated(
      		   this.pagination.page - 1,
  		       this.pagination.step
-     		 ).then(response => (this.computerListPaginated = response.data));
+          ).then(response => (this.computerListPaginated = response.data));
+          ComputersApi.findNumberOfComputers().then(response => { this.nbComputers = response.data});
 		}
 
 	},
@@ -184,61 +210,26 @@ export default {
 	   getUrlFirstSearch() {
 
 		  this.searchMod = true;
+		  ComputersApi.findNumberOfComputersSearch(this.search).then(response => { this.nbComputers = response.data});
 		  ComputersApi.findPageSearch(this.search,0,this.pagination.step).then(response => {
-			 console.log(response.data); 
-			  this.computerListPaginated = response.data;
+        this.computerListPaginated = response.data;
+        console.log(this.computerListPaginated); 
 			  this.pagination
 		  });
 	  },
-	//   getUrlPrevious() {
-	// 	  if(this.search == '') {
-	// 		 console.log('getUrlPrevious search vide'); 
-	// 		  this.searchMod = false;
-	// 	  }
-	//   	this.pageIterator -= 1;
-	//   	if(this.searchMod) {
-	// 	  ComputersApi.findPageSearch(this.search,this.pageIterator,this.pageSize).then(response => {
-	// 		 console.log('newSearch appelé dans méthode sans le créer dans data'); 
-	// 		 console.log(response.data); 
-	// 		  this.result = response.data;
-	// 	  });
-	// 	}
-	// 	else {
-	// 		ComputersApi.findPage(this.pageIterator,this.pageSize).then(response => {
-    //     		this.result = response.data;
-	// 		});
-	// 	}
-	//   },
-	//   getUrlNext() {
-	// 	  if(this.search == '') {
-	// 		  console.log('getUrlNext search vide');
-	// 		  this.searchMod = false;
-	// 	  }
-	//   this.pageIterator += 1;
-	//   if(this.searchMod) {
-	//   	ComputersApi.findPageSearch(this.search,this.pageIterator,this.pageSize).then(response => {
-	// 		 console.log('newSearch appelé dans méthode sans le créer dans data'); 
-	// 		 console.log(response.data); 
-	// 		  this.result = response.data;
-	// 	  });
-	// 	}
-	// 	else {
-	// 		ComputersApi.findPage(this.pageIterator,this.pageSize).then(response => {
-    //     		this.result = response.data;
-	// 		});
-	// 	}
-    
-		  
-	//   }
+
+	   
 
   },
   computed: {
     pages() {
-		this.nbComputers = this.computerList.length ;
       return this.pagination.step
-        ? Math.ceil(this.computerList.length / this.pagination.step)
+        ? Math.ceil(this.nbComputers / this.pagination.step)
         : 10;
-    }
+	},
+	message(){
+		  return "Computers in Database = " + this.nbComputers
+	  },
   }
 };
 </script>
