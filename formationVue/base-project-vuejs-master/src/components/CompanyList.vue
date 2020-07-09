@@ -3,14 +3,14 @@
     
       <h1>COMPANY LIST</h1>
 
-      <h2>{{nbCompanies}} trouvés</h2>
+      <h2>{{nbCompanies}} found</h2>
       <div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					Chercher une compagnie
+					Search a company
 					<v-container fluid>
 <v-row>
 <v-col cols="12" sm="10"> <v-text-field v-model="search" label="Search" outlined shaped > </v-text-field></v-col>
-<v-col cols="12" sm="2"> <v-btn @click="getUrlFirstSearch">Filtrer</v-btn> </v-col>
+<v-col cols="12" sm="2"> <v-btn @click="getUrlFirstSearch">Filter</v-btn> </v-col>
 </v-row>
 </v-container> 
 					<!--<form id="searchForm"  class="form-inline">
