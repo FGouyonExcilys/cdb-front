@@ -6,7 +6,8 @@
     />
 	<v-card>
 		<v-container fluid>
-      		<v-row>
+      		<v-row  align="center"
+          justify="center">
 		  		<v-col cols="12" md="8"> <v-text-field v-model="search"  @keydown.enter="reloadComputerList" label="Search" outlined shaped > </v-text-field></v-col>
 				<v-col cols="12" md="4">
 				 <v-text-field  :value="message" outlined shaped :disabled="true" filled >  </v-text-field>
@@ -19,12 +20,24 @@
          			<v-chip value="company" >Company</v-chip>
        			</v-chip-group>
 				</v-col>
+        </v-row>
 
-     		</v-row>
-         	<v-row justify="center" align="center">
-         			  </v-row>
+        <v-col cols ="10">
+          <v-row  align="center"
+          justify="center">      		 
+        <v-btn v-on:click="handleDelete"><span>Delete</span></v-btn>
+        <v-text-field v-if="show"  :value="checkedNames" :disabled="true" filled >  </v-text-field> 
+        </v-row>
+        </v-col> 
+     	
+       	
+
+
+         	  <v-row justify="center" align="center">
+        </v-row>
 
 			 <v-col cols="12" md="18"> <v-btn v-on:click="reloadComputerList"><span>Filtrer</span></v-btn> </v-col>
+
     	</v-container>
 
 	<v-row justify="center">
@@ -43,7 +56,7 @@
 	</v-card>
 
 
-    <v-container v-for="item in computerListPaginated" :key="item.id">
+    <v-container v-for="item in computerListPaginated" :key="item.id" justify="center" align="center">
       <v-card class="mx-auto" max-width="300">
         <v-list>
           <v-list-item>
@@ -81,6 +94,11 @@
           </v-list-item>
           <br />
         </v-list>
+        <v-container v-if="show" align="center" justify="center">
+          <v-switch label="To delete" :value="item.id" v-model="checkedNames"></v-switch>
+       </v-checkbox>
+          </v-container>
+       
       </v-card>
     </v-container>
 
@@ -147,7 +165,6 @@ export default {
       this.pagination.step = 10;
       this.pagination.page = 1;
       this.reloadComputerList();
-      console.log(this.computerList);
     },
     step50() {
       this.pagination.step = 50;
@@ -163,7 +180,6 @@ export default {
 		console.info(this.order);
 
 		if(this.search && !this.order){
-			console.info("AAAAAAAAAAAAA");
 			ComputersApi.findPageSearch(this.search,
      		   this.pagination.page - 1,
  		       this.pagination.step
@@ -171,14 +187,12 @@ export default {
 			  ComputersApi.findNumberOfComputersSearch(this.search).then(response => { this.nbComputers = response.data});
 
 		}else if(this.order && !this.search){
-			console.info("B");
 			ComputersApi.findPageOrder(this.pagination.page - 1,
 				this.pagination.step,
 				this.order
         ).then(response => (this.computerListPaginated = response.data)).catch(this.computerListPaginated = null);
          ComputersApi.findNumberOfComputers().then(response => { this.nbComputers = response.data});
 		}else if(this.order && this.search ){
-			console.info("c");
 			ComputersApi.findPageSearchOrder(this.search,
 				this.pagination.page - 1,
 				this.pagination.step,
@@ -186,7 +200,6 @@ export default {
         ).then(response => (this.computerListPaginated = response.data)).catch(this.computerListPaginated = null);
          ComputersApi.findNumberOfComputersSearch().then(response => { this.nbComputers = response.data});
 		}else {
-			console.info("d");
      		 ComputersApi.findComputersPaginated(
      		   this.pagination.page - 1,
  		       this.pagination.step
@@ -196,10 +209,11 @@ export default {
 
 	},
 	handleDelete() {
-		  if(this.show == false)
+		  if(this.show === false)
 			  this.show = true;
 			else {
 				for(var i = 0; i < this.checkedNames.length; i++) {
+          console.log("joie et bonheur");
 					ComputersApi.delete(this.checkedNames[i]);
 				}
 				this.checkedNames= [];
