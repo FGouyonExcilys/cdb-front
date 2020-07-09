@@ -30,9 +30,6 @@
                 <v-list-item-title>
                   <router-link to="/addComputer">Add Computer</router-link>
                 </v-list-item-title>
-                <v-list-item-title>
-                  <router-link to="/editComputer">Edit Computer</router-link>
-                </v-list-item-title>
               </v-list-items>
             </v-list>
           </div>

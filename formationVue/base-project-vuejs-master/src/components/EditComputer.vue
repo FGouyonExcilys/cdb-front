@@ -96,7 +96,7 @@ export default {
   props: {
     id: Number
   },
-
+  name: 'EditComputer',
   template: "#addComputer",
   icons: {
     iconfont: 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
@@ -106,6 +106,7 @@ export default {
     errors: [],
     companyList: [],
     computerToEdit: {},
+    idToReturn: 0,
 
     introducedFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
     discontinuedFormatted: vm.formatDate(
@@ -156,7 +157,9 @@ export default {
     CompaniesApi.findAll().then(response => (this.companyList = response.data));
     console.log(this.companyList);
 
-    ComputersApi.findOne(this.id).then(
+    this.idToReturn = this.$route.params.id;
+
+    ComputersApi.findOne(this.idToReturn).then(
       function(response) {
         this.computerToEdit = response.data;
         this.name = this.computerToEdit.name;
@@ -235,19 +238,19 @@ export default {
         this.isActiveDiscontinued
       ) {
         console.log({
-          id: this.id,
+          id: this.idToReturn,
           name: this.name,
           introducedDate: this.introduced,
           discontinuedDate: this.discontinued,
           companyDTO: { id: this.companyId, name: "" }
         });
         // Méthode PUT ICI
-        ComputersApi.update(this.id, {
-          id: this.id,
-          name: this.name,
-          introducedDate: this.introduced,
-          discontinuedDate: this.discontinued,
-          companyDTO: { id: this.companyId, name: "" }
+        ComputersApi.update(this.idToReturn, {
+          "id": this.idToReturn,
+          "name": this.name,
+          "introducedDate": this.introduced,
+          "discontinuedDate": this.discontinued,
+          "companyDTO": { "id": this.companyId, "name": "" }
         }).catch(function(error) {
           console.log(error);
         });
