@@ -25,8 +25,11 @@
               <v-list>
                <v-list-items>
       
-      <v-list-item-title><router-link to="/">Home</router-link></v-list-item-title>
-      <v-list-item-title><router-link to="/computers">Computers</router-link></v-list-item-title>
+        <v-list-item-title><router-link to="/">Home</router-link></v-list-item-title>
+         
+        
+        
+       <v-list-item-title><router-link to="/computers">Computers</router-link></v-list-item-title>
       <v-list-item-title><router-link to="/companies">Companies</router-link></v-list-item-title>
       <v-list-item-title><router-link to="/addComputer">Add Computer</router-link></v-list-item-title>
       <v-list-item-title><router-link to="/editComputer">Edit Computer</router-link></v-list-item-title>
@@ -72,10 +75,15 @@
       
       <div v-if=!isLogged><v-list-item-title><router-link to="/login" >Login</router-link></v-list-item-title></div>
       <div v-else>
+        <v-list-item-title><router-link to="/">Home</router-link></v-list-item-title>
          <v-list-item-title><router-link to="/login">Logout</router-link></v-list-item-title> 
         </div>
         
        <v-list-item-title><router-link to="/register">Register</router-link></v-list-item-title> 
+    </v-list-items>
+</v-list>
+          </v-menu>
+        
       </v-app-bar>
       <v-sheet
         id="scrolling-techniques-7"
