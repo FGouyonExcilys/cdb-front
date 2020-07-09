@@ -14,6 +14,16 @@ export class ComputersApi {
     });
   }
 
+
+  getNbComput(){
+        return this.axios.post("/computers", computer, {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: sessionStorage.getItem("token"),
+      },
+    });
+  }
+
   findAll() {
     return this.axios.get("/computers", {
       headers: {
@@ -29,7 +39,15 @@ export class ComputersApi {
     });
   }
   findNumberOfComputers() {
-    return this.axios.get("/numbers", {
+    return this.axios.get("/computers/numbers", {
+      headers: {
+        authorization: sessionStorage.getItem("token"),
+      },
+    });
+  }
+
+  findNumberOfComputersSearch(search) {
+    return this.axios.get("/computers", search,{
       headers: {
         authorization: sessionStorage.getItem("token"),
       },
@@ -63,6 +81,30 @@ export class ComputersApi {
     );
   }
 
+  findPageSearchOrder(search, page, size, order) {
+    return this.axios.get(
+      "/computers?search=" + search + "&page=" + page + "&size=" + size + "&orderBy=" + order,
+      {
+        headers: {
+          authorization: sessionStorage.getItem("token"),
+        },
+      }
+    );
+  }
+
+  findPageOrder(page, size, order) {
+    return this.axios.get(
+      "/computers?page=" + page + "&size=" + size + "&orderBy=" + order,
+      {
+        headers: {
+          authorization: sessionStorage.getItem("token"),
+        },
+      }
+    );
+  }
+
+  
+
   findOne(id) {
     return this.axios.get("/computers/" + id, {
       headers: {
@@ -70,14 +112,17 @@ export class ComputersApi {
       },
     });
   }
-  update(id, computer) {
-    return this.axios.put("/computers/" + id, computer, {
+
+  update(computer) {
+    return this.axios.put("/computers/" + computer.id, computer, {
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
         authorization: sessionStorage.getItem("token"),
       },
     });
   }
+
   delete(id) {
     return this.axios.delete("/computers/" + id, {
       headers: {
