@@ -18,6 +18,27 @@ export class ComputersApi {
     });
   }
 
+  findFirstPage() {
+    return this.axios.get("/computers?page=0&size=10", {
+      headers:{
+        authorization: sessionStorage.getItem('token')}
+    });
+  }
+
+  findPage(page, size) {
+    return this.axios.get('/computers?page='+page+'&size='+size, {
+      headers:{
+        authorization: sessionStorage.getItem('token')}
+    });
+  }
+
+  findPageSearch(search,page, size) {
+    return this.axios.get('/computers?search='+search+'&page='+page+'&size='+size, {
+      headers:{
+        authorization: sessionStorage.getItem('token')}
+    });
+  }
+
   findOne(id){
     return this.axios.get("/computers/" + id, {
       headers:{
@@ -28,9 +49,11 @@ export class ComputersApi {
     return this.axios.put("/computers/" + id, computer, {headers: { "Content-Type": "application/json",  authorization: sessionStorage.getItem('token') }});
   }
   delete(id) {
+
     return this.axios.delete("/computers/" + id , {
       headers:{
       authorization: sessionStorage.getItem('token')}
+
     });
   }
 }
