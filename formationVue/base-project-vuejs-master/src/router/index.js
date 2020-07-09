@@ -38,6 +38,13 @@ const routes = [
     }
   },
   {
+    path: '/companies',
+    name: 'CompanyList',
+    component: function () {
+      return import('../views/CompanyList.vue')
+    }
+  },
+  {
     path: '/addComputer',
     name: 'AddComputer',
     component: function () {

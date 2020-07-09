@@ -12,7 +12,7 @@
 				
 			<a href="${pageContext.request.contextPath}/logout"
 				style="color: white"><i class="fa fa-sign-out"
-				style="font-size: 24px; color: #de4e4e" aria-hidden="true"></i>Logout</a>
+				style="font-size: 24px; color: #de4e4e" aria-hidden="true"></i>LogAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAout</a>
 			</div>	
 				
 			<div align="right">

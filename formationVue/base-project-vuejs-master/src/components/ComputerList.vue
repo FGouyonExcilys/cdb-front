@@ -59,9 +59,6 @@
       </div>
     </v-row>
   </div>
-  <!-- <h1>COMPUTER LIST</h1>
-
-  <li v-for="computer in result" :key="computer.id">{{computer.name}}</li>-->
 </template>
 
 <script>
