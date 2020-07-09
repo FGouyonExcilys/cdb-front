@@ -40,8 +40,6 @@
           required
         ></v-text-field>
 
-<<<<<<< HEAD
-=======
         <v-text-field v-model="password" 
         :type="showPass ? 'text' : 'password'" 
         :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
@@ -57,7 +55,6 @@
         label="confirmation password" 
         @click:append="showPass = !showPass" required></v-text-field>
        
->>>>>>> 1e602aa1cab453436c2e056889610b728e91d260
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Register</v-btn>
 
         <v-btn color="warning" @click="resetValidation">Cancel</v-btn>
@@ -86,23 +83,6 @@ export default {
       v => (v && v.length <= 60) || "Name must be less than 60 characters",
       v => (v && v.length >= 9) || "Name must be more than 8 characters",
       value => {
-<<<<<<< HEAD
-        const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-        return (
-          pattern.test(value) ||
-          "Min. 8 characters with at least one capital letter, a number and a special character."
-        );
-      }
-    ],
-    isOkPasswords: false,
-    lazy: false
-  }),
-  computed: {
-    passwordConfirmationRule() {
-      return this.password === this.passwordConfirm || "Password must match";
-    }
-  },
-=======
           const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
           return (
             pattern.test(value) ||
@@ -124,18 +104,13 @@ export default {
       ];
     },
 },
->>>>>>> 1e602aa1cab453436c2e056889610b728e91d260
 
   props: {},
   methods: {
     registerMethod() {
-<<<<<<< HEAD
-      userApi.register(this.username, this.password).then(response => {
-=======
       let encodedPassword = this.CryptoJS.SHA1(this.password).toString()
       userApi.register(this.username, encryptedPassword).then((response) => {
 
->>>>>>> 1e602aa1cab453436c2e056889610b728e91d260
         //TODO : Something to access the success
         this.$router.push("/computers");
       });

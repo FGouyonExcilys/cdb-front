@@ -41,15 +41,6 @@
 
 <script>
 import { userApi } from "../api/users_api";
-<<<<<<< HEAD
-export default {
-  data: vm => ({
-    name: "Connection",
-    username: "",
-    password: "",
-    valid: true,
-    nameRulesUser: [
-=======
 import AlertC from '@/components/AlertComponent.vue';
 
 
@@ -61,26 +52,12 @@ export default {
         password: "",
         valid: true,
         nameRulesUser: [
->>>>>>> 1e602aa1cab453436c2e056889610b728e91d260
       v => !!v || "username is required",
       v => (v && v.length <= 60) || "Name must be less than 10 characters"
     ],
     nameRulesPassword: [
       v => !!v || "password is required",
       v => (v && v.length <= 60) || "Name must be less than 10 characters"
-<<<<<<< HEAD
-    ],
-    isOk: false,
-    lazy: false,
-    showPass: false
-  }),
-  mounted: function() {
-    if (sessionStorage.getItem("token")) {
-      userApi.logout();
-      this.$router.push("/home");
-    }
-  },
-=======
         ],
         isOk: false,
         lazy: false,
@@ -95,19 +72,10 @@ export default {
             this.$router.push('/')
         }
     },
->>>>>>> 1e602aa1cab453436c2e056889610b728e91d260
 
   props: {},
   methods: {
     loginMethod() {
-<<<<<<< HEAD
-      userApi.login(this.username, this.password).then(response => {
-        let token = "token";
-        let StringBearer = "Bearer ".concat(response.data);
-        sessionStorage.setItem(token, StringBearer);
-        this.$router.push("/computers");
-      });
-=======
 
       let encodedPassword = this.CryptoJS.SHA1(this.password).toString()
       userApi.login(this.username, encodedPassword).then((response) => {
@@ -121,7 +89,6 @@ export default {
 
       }
        );
->>>>>>> 1e602aa1cab453436c2e056889610b728e91d260
     },
     reset() {
       this.$refs.form.reset();
@@ -130,11 +97,6 @@ export default {
       this.$refs.form.resetValidation();
     },
     validate: function() {
-<<<<<<< HEAD
-      this.loginMethod();
-    }
-  }
-=======
 
         this.loginMethod();
 
@@ -154,7 +116,6 @@ export default {
 
 
   
->>>>>>> 1e602aa1cab453436c2e056889610b728e91d260
 };
 </script>
 
