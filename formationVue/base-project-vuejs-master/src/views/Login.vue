@@ -14,12 +14,7 @@ export default {
   name: "Login",
 
   components: { SignInForm },
-  
-  data(){
-    return {
-          message: "va bien a aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    }
-  },
+
 
 };
 </script> 

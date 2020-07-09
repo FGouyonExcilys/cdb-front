@@ -81,7 +81,8 @@ export default {
   props: {},
   methods: {
     registerMethod() {
-      userApi.register(this.username, this.password).then((response) => {
+      let encodedPassword = this.CryptoJS.SHA1(this.password).toString()
+      userApi.register(this.username, encryptedPassword).then((response) => {
 
         //TODO : Something to access the success
         this.$router.push('/computers');

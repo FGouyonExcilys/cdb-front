@@ -3,7 +3,7 @@
     <v-alert
       v-model="alert"
       dismissible
-      type="success"
+      type="warning"
     >
       {{message}}
     </v-alert>

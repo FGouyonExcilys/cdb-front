@@ -65,21 +65,19 @@ export default {
   props: {},
   methods: {
     loginMethod() {
-      userApi.login(this.username, this.password).then((response) => {
-        try{
+
+      let encodedPassword = this.CryptoJS.SHA1(this.password).toString()
+      userApi.login(this.username, encodedPassword).then((response) => {
         let token = 'token';
         let StringBearer = 'Bearer '.concat(response.data);
         sessionStorage.setItem(token, StringBearer);
         this.isWrongCredential=false;
         this.$router.push('/computers');
-        }catch(error){
-          this.isWrongCredential=true;
-        }
       },
-      ).catch(function (error) {
-        
-
-      });
+      ).catch(function(error){
+          this$.setWrongCredentialToTrue()
+      }
+       );
     },
      reset() {
       this.$refs.form.reset();
@@ -89,14 +87,12 @@ export default {
     },
     validate: function() {
 
-      const encryptedText = this.CryptoJS.AES.encrypt("Hi There!", "Secret Passphrase").toString()
-
-      console.log(encryptedText);
-      const decryptedText = this.CryptoJS.AES.decrypt(encryptedText, "Secret Passphrase").toString(this.CryptoJS.enc.Utf8)
-
-      console.log(decryptedText);
-
         this.loginMethod();
+
+    },
+    setWrongCredentialToTrue: function() {
+
+       this.isWrongCredential=true;
 
     },
     
