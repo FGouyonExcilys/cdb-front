@@ -21,7 +21,7 @@
        			</v-chip-group>
 				</v-col>
 				<v-col cols="12" sm="2">
-				Nb Computer : {{NbComputers}}
+				Number of computers: {{nbComputers}}
 				</v-col>
      		</v-row>
     	</v-container>

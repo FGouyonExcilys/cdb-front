@@ -41,7 +41,7 @@
                 <v-text-field
                   v-model="introduced"
                   label="Date"
-                  hint="YYYY-MM-DD format"
+                  hint="Please use the calendar"
                   persistent-hint
                   prepend-icon="event"
                   readonly
@@ -76,7 +76,7 @@
                 <v-text-field
                   v-model="discontinued"
                   label="Discontinued date"
-                  hint="YYYY-MM-DD format"
+                  hint="Please use the calendar"
                   persistent-hint
                   prepend-icon="event"
                   readonly
@@ -111,7 +111,6 @@
 
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Validate</v-btn>
 
-        <v-btn color="warning" @click="resetValidation">Cancel</v-btn>
       </v-form>
     </v-container>
   </div>
@@ -173,7 +172,7 @@ export default {
         response => (this.companyList = response.data)
       );
       // this.idToReturn = this.$route.params.id;
-
+      if(this.id!=0 && this.id != NaN){
       ComputersApi.findOne(this.id).then(
         function(response) {
           this.computerToEdit = response.data;
@@ -183,6 +182,7 @@ export default {
           this.companyId = this.computerToEdit.companyDTO.id;
         }.bind(this)
       );
+      }
     }
   },
 
@@ -199,16 +199,18 @@ export default {
     CompaniesApi.findAll().then(response => (this.companyList = response.data));
    
     // this.idToReturn = this.$route.params.id;
-
-    ComputersApi.findOne(this.id).then(
+    if(this.id!=0 && this.id != NaN){
+      ComputersApi.findOne(this.id).then(
       function(response) {
         this.computerToEdit = response.data;
         this.name = this.computerToEdit.name;
         this.introduced = this.computerToEdit.introducedDate;
         this.discontinued = this.computerToEdit.discontinuedDate;
         this.companyId = this.computerToEdit.companyDTO.id;
-      }.bind(this)
-    );
+      }.bind(this));
+    }
+    
+    
   },
 
   methods: {
@@ -258,13 +260,6 @@ export default {
       return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
     },
 
-    reset() {
-      this.$refs.form.reset();
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation();
-    },
-
     validate: function() {
       this.validateName();
       this.validateIntroduced();
@@ -292,7 +287,7 @@ export default {
           introducedDate: this.introduced,
           discontinuedDate: this.discontinued,
           companyDTO: { id: this.companyId, name: "" }
-        }).catch(function(error) {
+        }).then().catch(function(error) {
           console.log(error);
         });
       }
