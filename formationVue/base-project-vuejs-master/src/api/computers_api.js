@@ -103,8 +103,6 @@ export class ComputersApi {
     );
   }
 
-  
-
   findOne(id) {
     return this.axios.get("/computers/" + id, {
       headers: {
@@ -117,7 +115,6 @@ export class ComputersApi {
     return this.axios.put("/computers/" + computer.id, computer, {
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
         authorization: sessionStorage.getItem("token"),
       },
     });
