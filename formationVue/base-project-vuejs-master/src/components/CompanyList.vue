@@ -20,8 +20,9 @@
 				<v-col cols="12" md="4">
 				 <v-text-field  :value="message" outlined shaped :disabled="true" filled >  </v-text-field>
 				</v-col>
-				<v-col cols="12" md="18"> <v-btn v-on:click="reloadCompanyList"><span>Filter</span></v-btn> </v-col><v-btn v-on:click="handleDelete"><span>Delete</span></v-btn>
-        </v-row>
+				<v-col cols="12" md="18"> <v-btn v-on:click="reloadCompanyList"><span>Filter</span></v-btn> </v-col><v-btn v-on:click="handleDelete"><span>Delete</span></v-btn><br/>
+				<v-col cols="12" md="12" v-if="show"><v-alert type="info">Delete work in progress</v-alert></v-col>
+		</v-row>
 	
          <v-col cols ="10">
 			 <v-text-field v-if="show"  :value="checkedNames" :disabled="true" filled >  </v-text-field> 

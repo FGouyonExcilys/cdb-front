@@ -13,8 +13,9 @@
 				<v-col cols="12" md="4">
 				 <v-text-field  :value="message" outlined shaped :disabled="true" filled >  </v-text-field>
 				</v-col>
-				<v-col cols="12" md="18"> <v-btn v-on:click="reloadComputerList"><span>Filtrer</span></v-btn> </v-col><v-btn v-on:click="handleDelete"><span>Delete</span></v-btn>
-        	<v-col cols="12" md="12" >
+				<v-col cols="12" md="18"> <v-btn v-on:click="reloadComputerList"><span>Filtrer</span></v-btn> </v-col><v-btn v-on:click="handleDelete"><span>Delete</span></v-btn><br/>
+				<v-col cols="12" md="12" v-if="show"><v-alert type="info">Delete work in progress</v-alert></v-col>
+			<v-col cols="12" md="12" >
         		<v-chip-group active-class="primary--text" v-model="order" >
           			<v-chip value="name" >name</v-chip>
         			<v-chip value="introduced">Introduced Date</v-chip>
