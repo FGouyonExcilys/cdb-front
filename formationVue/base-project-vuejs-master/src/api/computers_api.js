@@ -47,7 +47,7 @@ export class ComputersApi {
   }
 
   findNumberOfComputersSearch(search) {
-    return this.axios.get("/computers", search,{
+    return this.axios.get("/computers?search=" + search, {
       headers: {
         authorization: sessionStorage.getItem("token"),
       },
