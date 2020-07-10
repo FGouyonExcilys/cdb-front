@@ -4,7 +4,7 @@
       href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
       rel="stylesheet"
     />
-	<v-card>
+	
 		<v-container fluid>
       		<v-row  align="center"
           justify="center">
@@ -12,6 +12,7 @@
 				<v-col cols="12" md="4">
 				 <v-text-field  :value="message" outlined shaped :disabled="true" filled >  </v-text-field>
 				</v-col>
+				<v-col cols="12" md="18"> <v-btn v-on:click="reloadComputerList"><span>Filtrer</span></v-btn> </v-col><v-btn v-on:click="handleDelete"><span>Delete</span></v-btn>
         	<v-col cols="12" md="12" >
         		<v-chip-group active-class="primary--text" v-model="order" >
           			<v-chip value="name" >name</v-chip>
@@ -23,20 +24,18 @@
         </v-row>
 
          <v-col cols ="10">
-          <v-row  align="center"
+          <v-text-field v-if="show"  :value="checkedNames" :disabled="true" filled >  </v-text-field>
+		  <v-row  align="center"
           justify="center">      		 
-        <v-btn v-on:click="handleDelete"><span>Delete</span></v-btn>
-        <v-text-field v-if="show"  :value="checkedNames" :disabled="true" filled >  </v-text-field> 
+         
         </v-row>
         </v-col> 
      	
        	
 
 
-         	  <v-row justify="center" align="center">
-        </v-row>
 
-			 <v-col cols="12" md="18"> <v-btn v-on:click="reloadComputerList"><span>Filtrer</span></v-btn> </v-col>
+			 
 
     	</v-container>
 
@@ -53,7 +52,7 @@
       </v-col>
     </v-row>
 
-	</v-card>
+	
 
 
     <v-container v-for="item in computerListPaginated" :key="item.id" justify="center" align="center">
@@ -96,7 +95,7 @@
         </v-list>
         <v-container v-if="show" align="center" justify="center">
           <v-switch label="To delete" :value="item.id" v-model="checkedNames"></v-switch>
-       </v-checkbox>
+       
           </v-container>
        
       </v-card>
@@ -198,7 +197,7 @@ export default {
 				this.pagination.step,
 				this.order
         ).then(response => (this.computerListPaginated = response.data)).catch(this.computerListPaginated = null);
-         ComputersApi.findNumberOfComputersSearch().then(response => { this.nbComputers = response.data});
+         ComputersApi.findNumberOfComputersSearch(this.search).then(response => { this.nbComputers = response.data});
 		}else {
      		 ComputersApi.findComputersPaginated(
      		   this.pagination.page - 1,

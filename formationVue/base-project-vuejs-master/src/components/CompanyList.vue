@@ -3,16 +3,42 @@
     
       <h1>COMPANY LIST</h1>
 
-      <h2>{{nbCompanies}} found</h2>
+      
       <div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					Search a company
-					<v-container fluid>
+					<!--<v-container fluid>
 <v-row>
 <v-col cols="12" sm="10"> <v-text-field v-model="search" label="Search" outlined shaped > </v-text-field></v-col>
 <v-col cols="12" sm="2"> <v-btn @click="getUrlFirstSearch">Filter</v-btn> </v-col>
 </v-row>
-</v-container> 
+</v-container> -->
+<v-container fluid>
+      		<v-row  align="center"
+          justify="center">
+		  		<v-col cols="12" md="8"> <v-text-field v-model="search"  @keydown.enter="reloadCompanyList" label="Search" outlined shaped > </v-text-field></v-col>
+				<v-col cols="12" md="4">
+				 <v-text-field  :value="message" outlined shaped :disabled="true" filled >  </v-text-field>
+				</v-col>
+				<v-col cols="12" md="18"> <v-btn v-on:click="reloadCompanyList"><span>Filter</span></v-btn> </v-col><v-btn v-on:click="handleDelete"><span>Delete</span></v-btn>
+        </v-row>
+	
+         <v-col cols ="10">
+			 <v-text-field v-if="show"  :value="checkedNames" :disabled="true" filled >  </v-text-field> 
+          <v-row  align="center"  justify="center">      		 
+       <!-- <v-btn v-on:click="handleDelete"><span>Delete</span></v-btn>-->
+        
+        </v-row>
+        </v-col> 
+     	
+       	
+
+
+
+			 
+
+    	</v-container>
+
 					<!--<form id="searchForm"  class="form-inline">
 						<label>
 						<input type="text" v-model="search" id="searchbox" name="search"
@@ -24,7 +50,7 @@
 					</form>-->
 				</div>
 				
-					<v-btn @click="handleDelete">Delete</v-btn>				
+						
 			</div>
       	<form id="deleteForm" action="dashboard /deleteComputer" method="POST">
 			<input type="hidden" name="selection" value="">
@@ -66,8 +92,7 @@
         <v-list>
           <v-list-item>
             <v-list-item-content>
-				<div v-show="show" class="editMode"><input type="checkbox" name="cb"
-								class="cb" :value="item.id" v-model="checkedNames"></div>
+				
               <v-list-item>
                 <v-list-item-title>
                   <!-- <router-link :to="{name: 'EditComputer', params: {id: item.id}}"> -->
@@ -101,11 +126,14 @@
               <br />
             </v-list-item-content>
           </v-list-item>
-          <br />
+          <v-container v-if="show" align="center" justify="center">
+          <v-switch label="To delete" :value="item.id" v-model="checkedNames"></v-switch>
+       
+          </v-container>
         </v-list>
       </v-card>
     </v-container>
-    <footer>
+    <!--<footer>
 		   <div class="container text-center">
 			<ul class="pagination">
 				<li v-if="pageIterator>0">
@@ -125,7 +153,7 @@
 			</ul>
 			{{checkedNames}}
 		   </div>
-	   </footer>
+	   </footer>-->
 	<v-row justify="center">
       <v-col cols="6">
         <v-container class="max-width">
@@ -209,19 +237,33 @@ export default {
       this.reloadCompanyList();
     },
     reloadCompanyList() {
-      CompaniesApi.findPage(
-        this.pagination.page - 1,
-        this.pagination.step
-      ).then(response => (this.companyListPaginated = response.data));
+		if(this.search) {
+			CompaniesApi.findPageSearch(
+				this.search,
+     		   this.pagination.page - 1,
+				this.pagination.step
+				
+          ).then(response => (this.companyListPaginated = response.data));
+          CompaniesApi.findNumberOfCompaniesSearch(this.search).then(response => { this.nbCompanies = response.data});
+		}
+		else {
+			CompaniesApi.findCompaniesPaginated(
+     		   this.pagination.page - 1,
+				this.pagination.step
+				
+          ).then(response => (this.companyListPaginated = response.data));
+          CompaniesApi.findAll().then(response => { this.nbCompanies = response.data.length});
+		}
+      
     },
 	 handleDelete() {
-		 console.log('handle delete')
-		 console.log(this.checkedNames)
 		  if(this.show == false)
 			  this.show = true;
 			else {
 				console.log('going to delete')
 				for(var i = 0; i < this.checkedNames.length; i++) {
+					console.log('handle delete')
+					console.log(this.checkedNames)
 					CompaniesApi.delete(this.checkedNames[i]);
 				}
 				this.checkedNames= [];
@@ -233,10 +275,13 @@ export default {
 		  this.searchMod = true;
 		  this.pageIterator=0;
 		  this.pageSize=10;
-		  CompaniesApi.findPageSearch(this.search,this.pageIterator,this.pageSize).then(response => {
+		  CompaniesApi.findPageSearch(this.search,this.pagination.page-1,this.pagination.step).then(response => {
 			 
 			  this.companyListPaginated = response.data;
 		  });
+		  if(this.search != "") {
+		  CompaniesApi.findNumberOfCompaniesSearch().then(response => { this.nbCompanies = response.data.length});
+	  }
 	  },
 	  getUrlPrevious() {
 		  if(this.search == '') {
@@ -285,7 +330,10 @@ export default {
       return this.pagination.step
         ? Math.ceil(this.companyList.length / this.pagination.step)
         : 10;
-    }
+	},
+	message(){
+		  return "Companies in Database = " + this.nbCompanies
+	  },
   }
 };
 </script>
