@@ -5,9 +5,27 @@
         href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
         rel="stylesheet"
       />
-      <h1>EDIT COMPUTER FORM</h1><br/>
+      <h1>EDIT COMPUTER FORM</h1>
+      <br />
+
+      <v-row>
+        <v-col cols="12" sm="10">
+          <v-text-field v-model="id" label="Search" outlined shaped></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="2">
+          <v-btn :click="editId">Filtrer</v-btn>
+        </v-col>
+      </v-row>
+
       <v-form ref="form" v-model="valid" :lazy-validation="lazy">
-        <v-text-field v-model="name" :counter="60" :rules="nameRules" clearable label="Name" required></v-text-field>
+        <v-text-field
+          v-model="name"
+          :counter="60"
+          :rules="nameRules"
+          clearable
+          label="Name"
+          required
+        ></v-text-field>
         <v-row>
           <v-col cols="12" lg="6">
             <v-menu
@@ -23,7 +41,7 @@
                 <v-text-field
                   v-model="introduced"
                   label="Date"
-                  hint="YYYY-MM-DD format"
+                  hint="Please use the calendar"
                   persistent-hint
                   prepend-icon="event"
                   readonly
@@ -32,7 +50,12 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="introduced" no-title @input="menu1 = false" color="green lighten-1"></v-date-picker>
+              <v-date-picker
+                v-model="introduced"
+                no-title
+                @input="menu1 = false"
+                color="green lighten-1"
+              ></v-date-picker>
             </v-menu>
             <p>
               Date in ISO format:
@@ -53,7 +76,7 @@
                 <v-text-field
                   v-model="discontinued"
                   label="Discontinued date"
-                  hint="YYYY-MM-DD format"
+                  hint="Please use the calendar"
                   persistent-hint
                   prepend-icon="event"
                   readonly
@@ -61,7 +84,13 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="discontinued" no-title @input="menu2 = false" color="green lighten-1" header-color="primary"></v-date-picker>
+              <v-date-picker
+                v-model="discontinued"
+                no-title
+                @input="menu2 = false"
+                color="green lighten-1"
+                header-color="primary"
+              ></v-date-picker>
             </v-menu>
             <p>
               Date in ISO format:
@@ -82,7 +111,6 @@
 
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Validate</v-btn>
 
-        <v-btn color="warning" @click="resetValidation">Cancel</v-btn>
       </v-form>
     </v-container>
   </div>
@@ -93,20 +121,17 @@ import ComputersApi from "../api/computers_api";
 import CompaniesApi from "../api/companies_api";
 
 export default {
-  props: {
-    id: Number
-  },
-
+  name: "EditComputer",
   template: "#addComputer",
   icons: {
-    iconfont: 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+    iconfont: "mdi" || "mdiSvg" || "md" || "fa" || "fa4" || "faSvg"
   },
 
   data: vm => ({
     errors: [],
     companyList: [],
     computerToEdit: {},
-
+    id: 0,
     introducedFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
     discontinuedFormatted: vm.formatDate(
       new Date().toISOString().substr(0, 10)
@@ -140,6 +165,24 @@ export default {
     },
     computedDiscontinuedFormatted() {
       return this.formatDate(this.discontinued);
+    },
+    editId() {
+      this.id = parseInt(this.id);
+      CompaniesApi.findAll().then(
+        response => (this.companyList = response.data)
+      );
+      // this.idToReturn = this.$route.params.id;
+      if(this.id!=0 && this.id != NaN){
+      ComputersApi.findOne(this.id).then(
+        function(response) {
+          this.computerToEdit = response.data;
+          this.name = this.computerToEdit.name;
+          this.introduced = this.computerToEdit.introducedDate;
+          this.discontinued = this.computerToEdit.discontinuedDate;
+          this.companyId = this.computerToEdit.companyDTO.id;
+        }.bind(this)
+      );
+      }
     }
   },
 
@@ -154,17 +197,20 @@ export default {
 
   mounted: function() {
     CompaniesApi.findAll().then(response => (this.companyList = response.data));
-    console.log(this.companyList);
-
-    ComputersApi.findOne(this.id).then(
+   
+    // this.idToReturn = this.$route.params.id;
+    if(this.id!=0 && this.id != NaN){
+      ComputersApi.findOne(this.id).then(
       function(response) {
         this.computerToEdit = response.data;
         this.name = this.computerToEdit.name;
         this.introduced = this.computerToEdit.introducedDate;
         this.discontinued = this.computerToEdit.discontinuedDate;
         this.companyId = this.computerToEdit.companyDTO.id;
-      }.bind(this)
-    );
+      }.bind(this));
+    }
+    
+    
   },
 
   methods: {
@@ -214,13 +260,6 @@ export default {
       return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
     },
 
-    reset() {
-      this.$refs.form.reset();
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation();
-    },
-
     validate: function() {
       this.validateName();
       this.validateIntroduced();
@@ -242,13 +281,13 @@ export default {
           companyDTO: { id: this.companyId, name: "" }
         });
         // Méthode PUT ICI
-        ComputersApi.update(this.id, {
+        ComputersApi.update({
           id: this.id,
           name: this.name,
           introducedDate: this.introduced,
           discontinuedDate: this.discontinued,
           companyDTO: { id: this.companyId, name: "" }
-        }).catch(function(error) {
+        }).then().catch(function(error) {
           console.log(error);
         });
       }

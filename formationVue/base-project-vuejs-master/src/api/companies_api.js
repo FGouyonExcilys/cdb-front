@@ -18,6 +18,14 @@ export class CompaniesApi {
     });
   }
 
+  findCompaniesPaginated(page, size) {
+    return this.axios.get("/companies?page=" + page + "&size=" + size, {
+      headers: {
+        authorization: sessionStorage.getItem("token"),
+      },
+    });
+  }
+
   findFirstPage() {
     return this.axios.get("/companies?page=0&size=10", {
       headers:{
@@ -39,6 +47,14 @@ export class CompaniesApi {
     });
   }
 
+  findNumberOfCompaniesSearch(search) {
+    return this.axios.get("/companies?search=" + search, {
+      headers: {
+        authorization: sessionStorage.getItem("token"),
+      },
+    });
+  }
+
   create(company) {
     return this.axios.post("/companies", company, {
 
@@ -48,8 +64,8 @@ export class CompaniesApi {
   delete(id) {
     return this.axios.delete("/companies/" + id, {
       headers:{
-        authorization: sessionStorage.getItem('token')}
-
+        authorization: sessionStorage.getItem('token'),
+      },
     });
   }
 }

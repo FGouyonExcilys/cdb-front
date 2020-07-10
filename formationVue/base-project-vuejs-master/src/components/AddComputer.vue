@@ -23,7 +23,7 @@
                 <v-text-field
                   v-model="introduced"
                   label="Date"
-                  hint="YYYY-MM-DD format"
+                  hint="Please use the calendar"
                   persistent-hint
                   prepend-icon="event"
                   readonly
@@ -34,10 +34,6 @@
               </template>
               <v-date-picker v-model="introduced" no-title @input="menu1 = false" color="green lighten-1"></v-date-picker>
             </v-menu>
-            <p>
-              Date in ISO format:
-              <strong>{{ introduced }}</strong>
-            </p>
           </v-col>
 
           <v-col cols="12" lg="6">
@@ -53,7 +49,7 @@
                 <v-text-field
                   v-model="discontinued"
                   label="Discontinued date"
-                  hint="YYYY-MM-DD format"
+                  hint="Please use the calendar"
                   persistent-hint
                   prepend-icon="event"
                   readonly
@@ -63,10 +59,6 @@
               </template>
               <v-date-picker v-model="discontinued" no-title @input="menu2 = false" color="green lighten-1" header-color="primary"></v-date-picker>
             </v-menu>
-            <p>
-              Date in ISO format:
-              <strong>{{ discontinued }}</strong>
-            </p>
           </v-col>
         </v-row>
 
@@ -80,9 +72,7 @@
           required
         ></v-select>
 
-        <v-btn :disabled="!valid" color="success" class="mr-4" id="validate" @click="validate">Validate</v-btn>
-
-        <v-btn color="warning" @click="resetValidation">Cancel</v-btn>
+        <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Validate</v-btn>
       </v-form>
     </v-container>
   </div>
@@ -199,13 +189,6 @@ export default {
 
       const [month, day, year] = date.split("/");
       return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-    },
-
-    reset() {
-      this.$refs.form.reset();
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation();
     },
 
     validate: function() {

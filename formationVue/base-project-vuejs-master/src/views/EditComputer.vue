@@ -1,6 +1,6 @@
 <template>
-  <div class="computers">
-    <EditComputer :id="575"/>
+  <div vclass="computers">
+    <EditComputer/>
   </div>
 </template>
 
@@ -11,6 +11,6 @@ import EditComputer from "@/components/EditComputer.vue";
 export default {
   components: {
     EditComputer
-  }
+  },
 };
 </script>
