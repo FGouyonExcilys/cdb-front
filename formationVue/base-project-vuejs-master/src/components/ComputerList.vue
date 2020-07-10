@@ -40,7 +40,10 @@
 			 
 
     	</v-container>
-
+	<v-banner
+        single-line
+        :sticky="sticky"
+      >
 	<v-row justify="center">
       <v-col cols="6">
         <v-container >
@@ -53,6 +56,14 @@
         </v-container>
       </v-col>
     </v-row>
+	<v-row justify="center">
+      <div class="my-2 text-center">
+        <v-btn small @click="step10()">10</v-btn>
+        <v-btn small @click="step50()">50</v-btn>
+        <v-btn small @click="step100()">100</v-btn>
+      </div>
+    </v-row>
+	</v-banner>
 
 	
 
@@ -103,25 +114,6 @@
       </v-card>
     </v-container>
 
-    <v-row justify="center">
-      <v-col cols="6">
-        <v-container class="max-width">
-          <v-pagination
-            v-model="pagination.page"
-            class="my-4"
-            :length="pages"
-            @input="reloadComputerList"
-          ></v-pagination>
-        </v-container>
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <div class="my-2 text-center">
-        <v-btn small @click="step10()">10</v-btn>
-        <v-btn small @click="step50()">50</v-btn>
-        <v-btn small @click="step100()">100</v-btn>
-      </div>
-    </v-row>
   </div>
 </template>
 
@@ -145,6 +137,7 @@ export default {
 		order: "",
 		search: "",
 		checkedNames: [],
+		sticky: true,
     };
   },
   mounted: function() {
