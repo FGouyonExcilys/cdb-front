@@ -22,13 +22,13 @@
 				</v-col>
         </v-row>
 
-        <!-- <v-col cols ="10">
+         <v-col cols ="10">
           <v-row  align="center"
           justify="center">      		 
         <v-btn v-on:click="handleDelete"><span>Delete</span></v-btn>
         <v-text-field v-if="show"  :value="checkedNames" :disabled="true" filled >  </v-text-field> 
         </v-row>
-        </v-col>  -->
+        </v-col> 
      	
        	
 

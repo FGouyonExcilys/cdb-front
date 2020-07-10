@@ -48,6 +48,7 @@ export class CompaniesApi {
   }
   delete(id) {
     return this.axios.delete("/companies/" + id, {
+      crossdomain: true,
       headers:{
         authorization: sessionStorage.getItem('token')}
 
