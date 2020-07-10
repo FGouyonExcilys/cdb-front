@@ -1,7 +1,7 @@
 <template>
   <div>
     
-      <h1>COMPANY LIST</h1>
+      <h1>COMPANIES</h1>
 
       
       <div id="actions" class="form-horizontal">
@@ -100,29 +100,7 @@
 				  <!-- </router-link> -->
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item-subtitle v-if="item.introducedDate">
-                <u>Introduced Date</u>
-                : {{item.introducedDate}}
-              </v-list-item-subtitle>
-              <v-list-item-subtitle v-else>
-                <u>Introduced Date</u>: Ø
-              </v-list-item-subtitle>
-              <br />
-              <v-list-item-subtitle v-if="item.discontinuedDate">
-                <u>Discontinued Date</u>
-                : {{item.discontinuedDate}}
-              </v-list-item-subtitle>
-              <v-list-item-subtitle v-else>
-                <u>Discontinued Date</u>: Ø
-              </v-list-item-subtitle>
-              <br />
-              <v-list-item-subtitle v-if="item.companyDTO">
-                <u>Company</u>
-                : {{item.companyDTO.name}}
-              </v-list-item-subtitle>
-              <v-list-item-subtitle v-else>
-                <u>Company</u>: Ø
-              </v-list-item-subtitle>
+              
               <br />
             </v-list-item-content>
           </v-list-item>
